@@ -32,7 +32,7 @@ public class CommodityController {
 
     }
 
-    //分页条件查询商品数据
+    //修改商品状态
     @RequestMapping("/shangjiacommodity.action")
     @CrossOrigin
     public String shangjiacommodity(Integer state,Integer id){
