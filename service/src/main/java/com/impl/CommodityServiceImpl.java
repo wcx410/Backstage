@@ -1,5 +1,6 @@
 package com.impl;
 
+import com.ComType;
 import com.Commodity;
 import com.CommodityDto;
 import com.CommodityService;
@@ -16,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 
+
+
 @Service
 public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity> implements  CommodityService {
     @Autowired
@@ -29,6 +32,9 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         }
         if(!StringUtils.isEmpty(commodityDto.getCom_type())){
             queryWrapper.like("com_type",commodityDto.getCom_type());
+        }
+        if(!StringUtils.isEmpty(commodityDto.getState())){
+            queryWrapper.like("state",Integer.valueOf(commodityDto.getState()));
         }
         return queryWrapper;
     }
@@ -57,4 +63,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     public List<Commodity> queryGuessLikes() {
         return commodityMapper.queryGuessLikes();
     }
+
+
+
 }

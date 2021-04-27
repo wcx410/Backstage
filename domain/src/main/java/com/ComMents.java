@@ -8,9 +8,13 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@TableName("com_type")
-public class ComType {
+@TableName("comments")
+public class ComMents {
     @TableId(value = "id",type = IdType.AUTO)
     private Integer id;
-    private String name;
+    private String content;
+    private Date comtime;
+    private Integer cid;
+    private Integer uid;
+    private Integer isdelete;
 }

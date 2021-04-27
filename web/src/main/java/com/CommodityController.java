@@ -20,24 +20,37 @@ public class CommodityController {
     //商品service
     @Autowired(required = false)
     private  CommodityService commodityService;
+    //商品类型service
+    @Autowired(required = false)
+    private ComTypeService comTypeService;
 
 
     //分页条件查询商品数据
     @RequestMapping("/queryallcommodity.action")
-    @ResponseBody //异步
-//    @CrossOrigin  //前后端分离
     public IPage<Commodity> queryallcommodity(@RequestParam(value = "pageno",defaultValue = "1") int pageno,
                                               @RequestParam(value = "pagesize",defaultValue = "5")int pagesize,
                                               CommodityDto commodityDto){
+        if (commodityDto.getState().equals("全部")) {
+            commodityDto.setState("");
+        }
+        if (commodityDto.getState().equals("上架")) {
+            commodityDto.setState("1");
+        }
+        if (commodityDto.getState().equals("未上架")) {
+            commodityDto.setState("0");
+        }
+        if (commodityDto.getState().equals("下架")) {
+            commodityDto.setState("2");
+        }
         QueryWrapper<Commodity> queryWrapper = commodityService.queryallbydto(commodityDto);
         IPage<Commodity>  iPage= commodityService.page(new Page<Commodity>(pageno,pagesize),queryWrapper);
+        System.out.println(iPage);
         return iPage;
 
     }
 
     //修改商品状态
     @RequestMapping("/shangjiacommodity.action")
-//    @CrossOrigin
     public String shangjiacommodity(Integer state,Integer id){
 
         int i = commodityService.updatestate(state, id);
@@ -45,6 +58,13 @@ public class CommodityController {
             return "修改成功";
         }
         return "修改失败";
+    }
+
+    //查询商品类型
+    @RequestMapping("/queryAlltype.action")
+    @CrossOrigin
+    public List<ComType> queryAlltype() {
+        return comTypeService.queryAlltype();
     }
 
     @RequestMapping("/queryHome")
