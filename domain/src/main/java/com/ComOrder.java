@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @TableName("com_order")
 public class ComOrder {
@@ -14,4 +16,9 @@ public class ComOrder {
     private String orderNumber;
     private Integer isdelete;
     private Integer sid;
+    private Integer totlemoney;
+    private Integer merid;
+    private Date deliveryTime;
+    private Date pickUpTime;
+
 }

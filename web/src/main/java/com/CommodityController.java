@@ -5,13 +5,16 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
-@Controller
+@RestController
+@CrossOrigin
+@RequestMapping("/commodity")
 public class CommodityController {
 
     //商品service
@@ -22,7 +25,7 @@ public class CommodityController {
     //分页条件查询商品数据
     @RequestMapping("/queryallcommodity.action")
     @ResponseBody //异步
-    @CrossOrigin  //前后端分离
+//    @CrossOrigin  //前后端分离
     public IPage<Commodity> queryallcommodity(@RequestParam(value = "pageno",defaultValue = "1") int pageno,
                                               @RequestParam(value = "pagesize",defaultValue = "5")int pagesize,
                                               CommodityDto commodityDto){
@@ -34,7 +37,7 @@ public class CommodityController {
 
     //修改商品状态
     @RequestMapping("/shangjiacommodity.action")
-    @CrossOrigin
+//    @CrossOrigin
     public String shangjiacommodity(Integer state,Integer id){
 
         int i = commodityService.updatestate(state, id);
@@ -44,4 +47,19 @@ public class CommodityController {
         return "修改失败";
     }
 
+    @RequestMapping("/queryHome")
+    public Map<String,Object> queryHome(){
+        Map<String,Object> map = new HashMap<>();
+        //查询首页的--新品上市
+        QueryWrapper<Commodity> newReleases = commodityService.queryNewReleases();
+        IPage<Commodity> page = commodityService.page(new Page<>(1, 10), newReleases);
+        map.put("newReleases",page.getRecords());
+        //查询首页的--热销商品
+        List<Commodity> queryHotSale = commodityService.queryHotSale();
+        map.put("hotSale",queryHotSale);
+        //查询首页的--猜你喜欢
+        List<Commodity> queryGuessLikes = commodityService.queryGuessLikes();
+        map.put("guessLikes",queryGuessLikes);
+        return map;
+    }
     }

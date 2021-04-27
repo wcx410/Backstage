@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 @Service
 public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity> implements  CommodityService {
@@ -32,5 +36,25 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     //修改商品状态
     public int updatestate(Integer state,Integer id) {
         return commodityMapper.update(state,id);
+    }
+
+    @Override
+    public QueryWrapper<Commodity> queryNewReleases() {
+        //查询首页的--新品上市
+        QueryWrapper<Commodity> queryWrapper =new QueryWrapper<Commodity>();
+        queryWrapper.eq("state",1);
+        queryWrapper.orderByDesc("newest_putaway_date");
+
+        return queryWrapper;
+    }
+
+    @Override
+    public List<Commodity> queryHotSale() {
+        return commodityMapper.queryHotSale();
+    }
+
+    @Override
+    public List<Commodity> queryGuessLikes() {
+        return commodityMapper.queryGuessLikes();
     }
 }
