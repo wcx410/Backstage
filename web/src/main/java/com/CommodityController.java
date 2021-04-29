@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -67,12 +66,23 @@ public class CommodityController {
         return comTypeService.queryAlltype();
     }
 
+    //添加商品
+    @RequestMapping("/add.action")
+    @CrossOrigin
+    public Boolean add(Commodity commodity) {
+        boolean res = commodityService.save(commodity);
+        return res;
+//        System.out.println(commodity);
+//        Boolean res=true ;
+//        return res;
+    }
+
     @RequestMapping("/queryHome")
     public Map<String,Object> queryHome(){
-        Map<String,Object> map = new HashMap<>();
+        Map<String,Object> map = new HashMap<String,Object>();
         //查询首页的--新品上市
         QueryWrapper<Commodity> newReleases = commodityService.queryNewReleases();
-        IPage<Commodity> page = commodityService.page(new Page<>(1, 10), newReleases);
+        IPage<Commodity> page = commodityService.page(new Page<Commodity>(1, 10), newReleases);
         map.put("newReleases",page.getRecords());
         //查询首页的--热销商品
         List<Commodity> queryHotSale = commodityService.queryHotSale();
