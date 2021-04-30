@@ -3,6 +3,7 @@ package com;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,8 @@ public interface CommodityService extends IService<Commodity> {
 
     //修改商品状态
     public int updatestate(Integer state ,Integer id);
+    //修改商品状态
+    public int updatestate2(Integer state , Date putawayDate,Integer id);
 
     //查询首页的--新品上市
     QueryWrapper<Commodity> queryNewReleases();

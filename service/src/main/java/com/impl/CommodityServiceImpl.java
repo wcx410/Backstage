@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,8 +44,12 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     public int updatestate(Integer state,Integer id) {
         return commodityMapper.update(state,id);
     }
+    //修改商品状态
+    public int updatestate2(Integer state, Date putawayDate,Integer id) {
+        return commodityMapper.update2(state,putawayDate,id);
+    }
 
-    @Override
+
     public QueryWrapper<Commodity> queryNewReleases() {
         //查询首页的--新品上市
         QueryWrapper<Commodity> queryWrapper =new QueryWrapper<Commodity>();
@@ -54,12 +59,12 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         return queryWrapper;
     }
 
-    @Override
+
     public List<Commodity> queryHotSale() {
         return commodityMapper.queryHotSale();
     }
 
-    @Override
+
     public List<Commodity> queryGuessLikes() {
         return commodityMapper.queryGuessLikes();
     }

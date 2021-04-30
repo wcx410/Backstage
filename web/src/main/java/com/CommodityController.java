@@ -1,11 +1,13 @@
 package com;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +28,8 @@ public class CommodityController {
 
     //分页条件查询商品数据
     @RequestMapping("/queryallcommodity.action")
-    public IPage<Commodity> queryallcommodity(@RequestParam(value = "pageno",defaultValue = "1") int pageno,
-                                              @RequestParam(value = "pagesize",defaultValue = "5")int pagesize,
+    public IPage<Commodity> queryallcommodity(@RequestParam(value = "page",defaultValue = "1") int pageno,
+                                              @RequestParam(value = "rows",defaultValue = "5")int pagesize,
                                               CommodityDto commodityDto){
         if (commodityDto.getState().equals("全部")) {
             commodityDto.setState("");
@@ -49,14 +51,20 @@ public class CommodityController {
     }
 
     //修改商品状态
-    @RequestMapping("/shangjiacommodity.action")
-    public String shangjiacommodity(Integer state,Integer id){
-
-        int i = commodityService.updatestate(state, id);
-        if(i>0){
-            return "修改成功";
+    @RequestMapping("/updatecommodity.action")
+    public Boolean updatecommodity(Integer state, Integer id, Date putawayDate){
+        int i=0;
+        if(putawayDate==null){
+         i = commodityService.updatestate(state, id);
         }
-        return "修改失败";
+        else {
+         i=commodityService.updatestate2(state,putawayDate,id);
+        }
+        if(i>0){
+            return true;
+        }
+        return false;
+
     }
 
     //查询商品类型
@@ -72,9 +80,15 @@ public class CommodityController {
     public Boolean add(Commodity commodity) {
         boolean res = commodityService.save(commodity);
         return res;
-//        System.out.println(commodity);
-//        Boolean res=true ;
-//        return res;
+    }
+    //修改商品
+    @RequestMapping("/update.action")
+    @CrossOrigin
+    public Boolean update(Commodity commodity) {
+        UpdateWrapper<Commodity> updateWrapper = new UpdateWrapper<Commodity>();
+        updateWrapper.eq("id",commodity.getId());
+        boolean res = commodityService.update(commodity,updateWrapper);
+        return res;
     }
 
     @RequestMapping("/queryHome")

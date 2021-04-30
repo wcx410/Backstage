@@ -6,11 +6,14 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.Date;
 import java.util.List;
 
 public interface CommodityMapper extends BaseMapper<Commodity> {
     @Update("update commodity set state=#{state} where id = #{id}")
     int update(@Param("state") Integer state,@Param("id") Integer id);
+    @Update("update commodity set state=#{state},putaway_date=#{putawayDate} where id = #{id}")
+    int update2(@Param("state") Integer state, @Param("putawayDate") Date putawayDate, @Param("id") Integer id);
 
     @Select("select commodity.* from commodity\n" +
             "        left join shopcar s on commodity.id = s.cid\n" +
