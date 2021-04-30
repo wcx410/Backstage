@@ -19,4 +19,6 @@ public class ComTypeController {
         IPage<ComType> page = comTypeService.page(new Page<ComType>(1, 10));
         return page.getRecords();
     }
+
+
 }

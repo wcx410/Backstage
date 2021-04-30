@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,9 @@ public class CommodityController {
     //商品类型service
     @Autowired(required = false)
     private ComTypeService comTypeService;
+    //商品标签service
+    @Autowired(required = false)
+    private ComLableService comLableService;
 
 
     //分页条件查询商品数据
@@ -43,6 +47,7 @@ public class CommodityController {
         if (commodityDto.getState().equals("下架")) {
             commodityDto.setState("2");
         }
+
         QueryWrapper<Commodity> queryWrapper = commodityService.queryallbydto(commodityDto);
         IPage<Commodity>  iPage= commodityService.page(new Page<Commodity>(pageno,pagesize),queryWrapper);
         System.out.println(iPage);
@@ -73,12 +78,48 @@ public class CommodityController {
     public List<ComType> queryAlltype() {
         return comTypeService.queryAlltype();
     }
+    //查询商品类型,分页条件
+    @RequestMapping("/queryAlltypebydto.action")
+    @CrossOrigin
+    public IPage<ComType> queryAlltypebydto(@RequestParam(value = "page",defaultValue = "1") int pageno,
+                                           @RequestParam(value = "rows",defaultValue = "5")int pagesize,
+                                           @Param("name") String name) {
+        QueryWrapper<ComType> queryWrapper = comTypeService.queryallbydto(name);
+        IPage<ComType>  iPage= comTypeService.page(new Page<ComType>(pageno,pagesize),queryWrapper);
+        System.out.println(iPage);
+        return iPage;
+    }
+    //查询商品标签,分页条件
+    @RequestMapping("/queryAlllabelbydto.action")
+    @CrossOrigin
+    public IPage<ComLabel> queryAlllabelbydto(@RequestParam(value = "page",defaultValue = "1") int pageno,
+                                            @RequestParam(value = "rows",defaultValue = "5")int pagesize,
+                                            @Param("name") String name) {
+        QueryWrapper<ComLabel> queryWrapper = comLableService.queryallbydto(name);
+        IPage<ComLabel>  iPage= comLableService.page(new Page<ComLabel>(pageno,pagesize),queryWrapper);
+        System.out.println(iPage);
+        return iPage;
+    }
 
     //添加商品
     @RequestMapping("/add.action")
     @CrossOrigin
     public Boolean add(Commodity commodity) {
         boolean res = commodityService.save(commodity);
+        return res;
+    }
+    //添加商品标签
+    @RequestMapping("/addlable.action")
+    @CrossOrigin
+    public Boolean addlable(ComLabel comLabel) {
+        boolean res = comLableService.save(comLabel);
+        return res;
+    }
+    //添加类型商品
+    @RequestMapping("/addtype.action")
+    @CrossOrigin
+    public Boolean addtype(ComType comType) {
+        boolean res = comTypeService.save(comType);
         return res;
     }
     //修改商品
@@ -88,6 +129,39 @@ public class CommodityController {
         UpdateWrapper<Commodity> updateWrapper = new UpdateWrapper<Commodity>();
         updateWrapper.eq("id",commodity.getId());
         boolean res = commodityService.update(commodity,updateWrapper);
+        return res;
+    }
+    //修改商品类型
+    @RequestMapping("/updatetype.action")
+    @CrossOrigin
+    public Boolean updatetype(ComType comType) {
+
+        UpdateWrapper<ComType> updateWrapper = new UpdateWrapper<ComType>();
+        updateWrapper.eq("id",comType.getId());
+        boolean res = comTypeService.update(comType,updateWrapper);
+        return res;
+    }
+    //修改商品标签
+    @RequestMapping("/updatelable.action")
+    @CrossOrigin
+    public Boolean updatelable(ComLabel comLabel) {
+        UpdateWrapper<ComLabel> updateWrapper = new UpdateWrapper<ComLabel>();
+        updateWrapper.eq("id",comLabel.getId());
+        boolean res = comLableService.update(comLabel,updateWrapper);
+        return res;
+    }
+    //删除商品类型
+    @RequestMapping("/deletetype.action")
+    @CrossOrigin
+    public Boolean deletetype(Integer id) {
+        boolean res = comTypeService.removeById(id);
+        return res;
+    }
+    //删除商品标签
+    @RequestMapping("/deletelable.action")
+    @CrossOrigin
+    public Boolean deletelable(Integer id) {
+        boolean res = comLableService.removeById(id);
         return res;
     }
 
