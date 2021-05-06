@@ -30,4 +30,5 @@ public class ComTypeServiceImpl extends ServiceImpl<ComTypeMapper, ComType> impl
         return queryWrapper;
     }
 
+
 }
