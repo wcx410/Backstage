@@ -17,4 +17,8 @@ public class ShopCarController {
     public List<ShopCarAndCommodity>shopCarAndCommodities(Integer uid){
         return shopCarService.queryShopCarAndCommodityByUId(uid);
     }
+    @RequestMapping("/addOrder")
+    public String addOrder(ComOrder comOrder){
+        return shopCarService.save(comOrder)?"添加成功":"添加失败";
+    }
 }

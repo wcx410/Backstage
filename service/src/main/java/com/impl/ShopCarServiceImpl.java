@@ -1,5 +1,10 @@
 package com.impl;
 
+import com.ComOrder;
+import com.ShopCarAndCommodity;
+import com.ShopCarService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.mapper.ComOrderMapper;
 import com.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -11,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class ShopCarServiceImpl implements ShopCarService {
+public class ShopCarServiceImpl  extends ServiceImpl<ComOrderMapper, ComOrder> implements ShopCarService {
     @Autowired
     ShopCarMapper shopCarMapper;
 
