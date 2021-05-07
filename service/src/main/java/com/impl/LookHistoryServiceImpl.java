@@ -1,5 +1,6 @@
 package com.impl;
 
+import com.Commodity;
 import com.LookHistory;
 import com.LookHistoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -13,7 +14,7 @@ import java.util.List;
 public class LookHistoryServiceImpl extends ServiceImpl<LookHistoryMapper, LookHistory> implements LookHistoryService {
     @Autowired
     LookHistoryMapper lookHistoryMapper;
-    public List<LookHistory> queryFoot(Integer id) {
+    public List<Commodity> queryFoot(Integer id) {
         return lookHistoryMapper.queryFoot(id);
     }
 }

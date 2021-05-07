@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.shop.ShopCarsMapper" >
+    <select id="queryshouhuo" resultType="com.MyShop" parameterType="com.shop.ShopCarDto">
+        SELECT o.`order_number` orderNumber,o.`ordstate`,u.`username`,
+        c.`image`,c.`com_type` comType,o.totlemoney,u.`uname`,c.`name`,s.`number`,u.`phone`,
+        o.delivery_time deliveryTime,o.pick_up_time pickUpTime
+        FROM shopcar s INNER JOIN USER u ON s.`uid`=u.`id`
+        INNER JOIN com_order o ON s.`id`=o.`sid`
+        INNER JOIN commodity c ON s.`cid`=c.`id`
+        <where>
+            <if test="1==1">and o.`ordstate`=1</if>
+            <if test="search_uname != null and search_uname != ''">
+                and uname like concat('%',#{search_uname},'%')
+            </if>
+        </where>
+    </select>
+    <select id="querytihuo" resultType="com.MyShop" parameterType="com.shop.ShopCarDto">
+        SELECT o.`order_number` orderNumber,o.`ordstate`,u.`username`,
+        c.`image`,c.`com_type` comType,o.totlemoney,u.`uname`,c.`name`,s.`number`,u.`phone`,
+        o.delivery_time deliveryTime,o.pick_up_time pickUpTime
+        FROM shopcar s INNER JOIN USER u ON s.`uid`=u.`id`
+        INNER JOIN com_order o ON s.`id`=o.`sid`
+        INNER JOIN commodity c ON s.`cid`=c.`id`
+        <where>
+            <if test="1==1">and o.`ordstate`=2</if>
+            <if test="search_uname != null and search_uname != ''">
+                and uname like concat('%',#{search_uname},'%')
+            </if>
+        </where>
+    </select>
+
+</mapper>
