@@ -1,6 +1,9 @@
 package com;
 
 public class MyShop {
+    private int id;//订单的id
+    private int uid;//用户id
+    private int mid;//商户id
     private String orderNumber;
     private String uname;
     private String name;
@@ -14,6 +17,29 @@ public class MyShop {
     private String deliveryTime;
     private String pickUpTime;
 
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public int getMid() {
+        return mid;
+    }
+
+    public void setMid(int mid) {
+        this.mid = mid;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getOrderNumber() {
         return orderNumber;

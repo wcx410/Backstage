@@ -12,4 +12,6 @@ public interface ShopCarsMapper {
     //商户查询订单状态为待提货的订单信息
     List<MyShop> querytihuo(ShopCarDto dto);
 
+
+
 }

@@ -5,12 +5,11 @@ import com.shop.MerchantsDto;
 import com.shop.OrderDto;
 import com.shop.ShopCarDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RequestMapping("/shop")
 @RestController
@@ -106,14 +105,36 @@ public class ShopController {
         return row;
     }
 
-    //收货，向收货门店表里面添加数据
+    //修改订单状态为待提货（ordstate=2）
+    @RequestMapping("/updatepshopcars.action")
+    public boolean updatepshopcars(@RequestBody List<Integer> ids){
+        List<ComOrder> orderlist = new ArrayList<ComOrder>();
+        ComOrder comOrder = null;
+        for (int i =0;i<ids.size();i++){
+            comOrder = new ComOrder();
+            comOrder.setId(ids.get(i));
+            comOrder.setOrdstate(2);
+            comOrder.setDeliveryTime(new Date());
+            orderlist.add(comOrder);
+        }
+        boolean b = shopCarService.updateBatchById(orderlist);
+        return b;
+    }
+
+    //向收货门店表插入数据
     @RequestMapping("/insertpickupmerchants.action")
-    public int insertpickupmerchants(PickupMerchants pickupMerchants){
-        pickupMerchants.setUser(1);
-        pickupMerchants.setMerchant(1);
-        pickupMerchants.setRemark("香蕉");
-        pickupMerchants.setCreateTime(new Date());
-        int row = this.pickupMerchantsService.insertpickupmerchants(pickupMerchants);
-        return row;
+    public boolean insertpickupmerchants(@RequestBody List<MyShop> myShopList){
+        List<PickupMerchants> pickupMerchantsList = new ArrayList<PickupMerchants>();
+        PickupMerchants pickupMerchants = null;
+        for (int i =0;i<myShopList.size();i++){
+            pickupMerchants = new PickupMerchants();
+            pickupMerchants.setUser(myShopList.get(i).getUid());
+            pickupMerchants.setMerchant(myShopList.get(i).getMid());
+            pickupMerchants.setCreateTime(new Date());
+            pickupMerchants.setRemark("商品名称："+myShopList.get(i).getName()+",商品数量："+myShopList.get(i).getNumber());
+            pickupMerchantsList.add(pickupMerchants);
+        }
+        boolean b = pickupMerchantsService.saveBatch(pickupMerchantsList);
+        return b;
     }
 }
