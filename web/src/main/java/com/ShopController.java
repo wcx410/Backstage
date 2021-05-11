@@ -68,8 +68,16 @@ public class ShopController {
     //根据id修改商户信息
     @RequestMapping("/updatemerchantsbyid.action")
     public boolean updatemerchantsbyid(Merchants merchants){
-//        UpdateWrapper<Merchants> updateWrapper = new UpdateWrapper<Merchants>();
-//        updateWrapper.eq("id",merchants.getId());
+        boolean res = merchantsService.updateById(merchants);
+        return res;
+    }
+
+    //根据id删除商户信息
+    @RequestMapping("/deletemerchantsbyid.action")
+    public boolean deletemerchantsbyid(int id){
+        Merchants merchants = new Merchants();
+        merchants.setId(id);
+        merchants.setState(-1);
         boolean res = merchantsService.updateById(merchants);
         return res;
     }
