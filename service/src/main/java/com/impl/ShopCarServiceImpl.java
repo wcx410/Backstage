@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class ShopCarServiceImpl  extends ServiceImpl<ComOrderMapper, ComOrder> implements ShopCarService {
+public class ShopCarServiceImpl  extends ServiceImpl<ShopCarMapper, ShopCar> implements ShopCarService {
     @Autowired
     ShopCarMapper shopCarMapper;
 
