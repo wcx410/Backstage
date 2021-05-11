@@ -1,5 +1,6 @@
 package com;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.shop.MerchantsApplyDto;
 import com.shop.MerchantsDto;
 import com.shop.OrderDto;
@@ -47,8 +48,30 @@ public class ShopController {
     //查询所有商户信息
     @RequestMapping("/querymerchants.action")
     public PageUtil<Merchants> querymerchants(MerchantsDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize){
-        PageUtil<Merchants> pageUtil = this.merchantsService.querymerchants(pageNo, pageSize, dto);
+        PageUtil<Merchants> pageUtil = null;
+        if(dto!=null ){
+            if(dto.getSearch_shstate().equals("-2")){
+                dto.setSearch_shstate("");
+            }
+            pageUtil = this.merchantsService.querymerchants(pageNo, pageSize, dto);
+        }
         return pageUtil;
+    }
+
+    //根据id查询商户信息
+    @RequestMapping("/querymerchantsbyid.action")
+    public Merchants querymerchantsbyid(int id){
+        Merchants merchants = merchantsService.getById(id);
+        return merchants;
+    }
+
+    //根据id修改商户信息
+    @RequestMapping("/updatemerchantsbyid.action")
+    public boolean updatemerchantsbyid(Merchants merchants){
+//        UpdateWrapper<Merchants> updateWrapper = new UpdateWrapper<Merchants>();
+//        updateWrapper.eq("id",merchants.getId());
+        boolean res = merchantsService.updateById(merchants);
+        return res;
     }
 
     //查询商户申请为未审核状态的商户
@@ -56,33 +79,6 @@ public class ShopController {
     public PageUtil<MyMerchantsApply> querymerchantsstatu(MerchantsApplyDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize){
         PageUtil<MyMerchantsApply> pageUtil = this.merchantsApplyService.querymerchantsstatu(pageNo, pageSize, dto);
         return pageUtil;
-    }
-
-    //商户申请修改状态0：未审核1：审核通过2：审核不通过
-    @RequestMapping("/updatemerchantsstatu.action")
-    public String updatemerchantsstatu(Integer userid,Integer state){
-        int row = this.merchantsApplyService.updatemerchantsstatu(userid, state);
-        String result="";
-        if(state==1){
-            result="注册成功!";
-        }else {
-            result="注册失败!";
-        }
-        return result;
-    }
-
-    //删除商户(修改商户状态为删除)
-    @RequestMapping("/delmerchants.action")
-    public int delmerchants(Integer id){
-        int row = this.merchantsService.delmerchants(2);
-        return row;
-    }
-
-    //冻结商户(修改商户状态为冻结)
-    @RequestMapping("/dongjiemerchants.action")
-    public int dongjiemerchants(Integer id){
-        int row = this.merchantsService.dongjiemerchants(id);
-        return row;
     }
 
     //查询订单信息
@@ -98,13 +94,6 @@ public class ShopController {
         return pageUtil;
     }
 
-    //资料维护
-    @RequestMapping("/updatemerchants.action")
-    public int updatemerchants(Merchants merchants){
-        int row = this.merchantsService.updatemerchants(merchants);
-        return row;
-    }
-
     //修改订单状态为待提货（ordstate=2）
     @RequestMapping("/updatepshopcars.action")
     public boolean updatepshopcars(@RequestBody List<Integer> ids){
@@ -115,6 +104,22 @@ public class ShopController {
             comOrder.setId(ids.get(i));
             comOrder.setOrdstate(2);
             comOrder.setDeliveryTime(new Date());
+            orderlist.add(comOrder);
+        }
+        boolean b = shopCarService.updateBatchById(orderlist);
+        return b;
+    }
+
+    //修改订单状态为已提货（ordstate=3）
+    @RequestMapping("/updatepshopcar.action")
+    public boolean updatepshopcar(@RequestBody List<Integer> ids){
+        List<ComOrder> orderlist = new ArrayList<ComOrder>();
+        ComOrder comOrder = null;
+        for (int i =0;i<ids.size();i++){
+            comOrder = new ComOrder();
+            comOrder.setId(ids.get(i));
+            comOrder.setOrdstate(3);
+            comOrder.setPickUpTime(new Date());
             orderlist.add(comOrder);
         }
         boolean b = shopCarService.updateBatchById(orderlist);

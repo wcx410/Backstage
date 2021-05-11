@@ -24,7 +24,6 @@ public class ShopCarServiceImpl  extends ServiceImpl<ComOrderMapper, ComOrder> i
     private ShopCarsMapper shopCarMappers;
 
 
-
     public List<ShopCarAndCommodity> queryShopCarAndCommodityByUId(Integer uid) {
         return shopCarMapper.queryShopCarAndCommodityByUId(uid);
     }

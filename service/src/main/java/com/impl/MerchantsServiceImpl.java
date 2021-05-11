@@ -1,11 +1,10 @@
 package com.impl;
 
-import com.Merchants;
-import com.MerchantsService;
-import com.MyShop;
-import com.PageUtil;
+import com.*;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.mapper.ComOrderMapper;
 import com.mapper.shop.MerchantsMapper;
 import com.shop.MerchantsDto;
 import com.shop.ShopCarDto;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MerchantsServiceImpl implements MerchantsService {
+public class MerchantsServiceImpl extends ServiceImpl<MerchantsMapper, Merchants> implements MerchantsService {
     @Autowired
     private MerchantsMapper merchantsMapper;
 
@@ -29,16 +28,5 @@ public class MerchantsServiceImpl implements MerchantsService {
         return pageUtil;
     }
 
-    public int delmerchants(Integer id) {
-        return this.merchantsMapper.delmerchants(id);
-    }
-
-    public int dongjiemerchants(Integer id) {
-        return this.merchantsMapper.dongjiemerchants(id);
-    }
-
-    public int updatemerchants(Merchants merchants) {
-        return this.updatemerchants(merchants);
-    }
 
 }
