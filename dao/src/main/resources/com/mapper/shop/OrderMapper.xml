@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.shop.OrderMapper" >
+    <select id="querycomorder" resultType="com.MyOrder" parameterType="com.shop.OrderDto">
+        SELECT o.merid mid,u.id uid,o.id,o.`order_number` orderNumber,o.`ordstate`,u.`username`,u.`uname`,
+        c.`image`,c.`name`,c.`com_type` comType,s.`number`,s.`totalprice`,u.`phone`,
+        o.delivery_time deliveryTime,o.pick_up_time pickUpTime
+        FROM shopcar s INNER JOIN USER u ON s.`uid`=u.`id`
+        INNER JOIN com_order o ON s.`id`=o.`sid`
+        INNER JOIN commodity c ON s.`cid`=c.`id`
+        <where>
+            <if test="search_ordstate != null and search_ordstate != ''">
+                and ordstate=#{search_ordstate}
+            </if>
+            <if test="search_ordname != null and search_ordname != ''">
+                and uname like concat('%',#{search_ordname},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

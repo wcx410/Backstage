@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.shop.MerchantsMapper" >
+    <select id="querymerchants" resultType="com.Merchants" parameterType="com.shop.MerchantsDto">
+        SELECT id,name,address,phone,longitude,latitude,open_time_from openTimeFrom
+         ,open_time_to openTimeTo,remark,state FROM merchants
+        <where>
+            <if test="search_shname != null and search_shname != ''">
+                and name like concat('%',#{search_shname},'%')
+            </if>
+            <if test="search_shaddress != null and search_shaddress != ''">
+                and address like concat('%',#{search_shaddress},'%')
+            </if>
+            <if test="search_shstate != null and search_shstate != ''">
+                and state=#{search_shstate}
+            </if>
+        </where>
+    </select>
+    <update id="delmerchants" parameterType="Integer">
+    UPDATE merchants SET state=-1 WHERE id=#{id}
+    </update>
+    <update id="dongjiemerchants" parameterType="Integer">
+    UPDATE merchants SET state=0 WHERE id=#{id}
+    </update>
+    <update id="updatemerchants" parameterType="Integer">
+    UPDATE merchants SET NAME=#{name},address=#{address},phone=#{phone},longitude=#{longitude},
+    latitude=#{latitude},open_time_from=#{openTimeFrom},open_time_to=#{openTimeTo},remark=#{remark},state=#{state}
+    WHERE id=#{id}
+    </update>
+</mapper>

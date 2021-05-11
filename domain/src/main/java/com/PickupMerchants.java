@@ -21,5 +21,43 @@ public class PickupMerchants {
 
     private Date createTime;
 
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getUser() {
+        return user;
+    }
+
+    public void setUser(Integer user) {
+        this.user = user;
+    }
+
+    public Integer getMerchant() {
+        return merchant;
+    }
+
+    public void setMerchant(Integer merchant) {
+        this.merchant = merchant;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 }
