@@ -17,7 +17,7 @@ public class MyFootprintController {
     LookHistoryService lookHistoryService;
 //    根据用户id查询该用户的历史足迹
     @RequestMapping("/queryFoot")
-    public List<Commodity> queryFoot(Integer uid){
+    public List<LookHistory> queryFoot(Integer uid){
         return  lookHistoryService.queryFoot(uid);
     }
 //    向足迹表里插入一条数据

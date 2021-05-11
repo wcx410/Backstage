@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.Sys_codesMapper" >
+  <resultMap id="BaseResultMap" type="com.Sys_codes" >
+    <id column="ID" property="ID" jdbcType="INTEGER" />
+    <result column="PARENT_ID" property="PARENT_ID" jdbcType="INTEGER" />
+    <result column="CODE_ID" property="CODE_ID" jdbcType="VARCHAR" />
+    <result column="NAME" property="NAME" jdbcType="VARCHAR" />
+    <result column="STATUS" property="STATUS" jdbcType="VARCHAR" />
+    <result column="DEF_VALUE" property="DEF_VALUE" jdbcType="VARCHAR" />
+    <result column="DESCN" property="DESCN" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, PARENT_ID, CODE_ID, NAME, STATUS, DEF_VALUE, DESCN
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.Sys_codesExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_codes
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_codes
+    where ID = #{ID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_codes
+    where ID = #{ID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.Sys_codesExample" >
+    delete from sys_codes
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.Sys_codes" >
+    insert into sys_codes (ID, PARENT_ID, CODE_ID, 
+      NAME, STATUS, DEF_VALUE, 
+      DESCN)
+    values (#{ID,jdbcType=INTEGER}, #{PARENT_ID,jdbcType=INTEGER}, #{CODE_ID,jdbcType=VARCHAR}, 
+      #{NAME,jdbcType=VARCHAR}, #{STATUS,jdbcType=VARCHAR}, #{DEF_VALUE,jdbcType=VARCHAR}, 
+      #{DESCN,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.Sys_codes" >
+    insert into sys_codes
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ID != null" >
+        ID,
+      </if>
+      <if test="PARENT_ID != null" >
+        PARENT_ID,
+      </if>
+      <if test="CODE_ID != null" >
+        CODE_ID,
+      </if>
+      <if test="NAME != null" >
+        NAME,
+      </if>
+      <if test="STATUS != null" >
+        STATUS,
+      </if>
+      <if test="DEF_VALUE != null" >
+        DEF_VALUE,
+      </if>
+      <if test="DESCN != null" >
+        DESCN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ID != null" >
+        #{ID,jdbcType=INTEGER},
+      </if>
+      <if test="PARENT_ID != null" >
+        #{PARENT_ID,jdbcType=INTEGER},
+      </if>
+      <if test="CODE_ID != null" >
+        #{CODE_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="NAME != null" >
+        #{NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="STATUS != null" >
+        #{STATUS,jdbcType=VARCHAR},
+      </if>
+      <if test="DEF_VALUE != null" >
+        #{DEF_VALUE,jdbcType=VARCHAR},
+      </if>
+      <if test="DESCN != null" >
+        #{DESCN,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.Sys_codesExample" resultType="java.lang.Integer" >
+    select count(*) from sys_codes
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_codes
+    <set >
+      <if test="record.ID != null" >
+        ID = #{record.ID,jdbcType=INTEGER},
+      </if>
+      <if test="record.PARENT_ID != null" >
+        PARENT_ID = #{record.PARENT_ID,jdbcType=INTEGER},
+      </if>
+      <if test="record.CODE_ID != null" >
+        CODE_ID = #{record.CODE_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="record.NAME != null" >
+        NAME = #{record.NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="record.STATUS != null" >
+        STATUS = #{record.STATUS,jdbcType=VARCHAR},
+      </if>
+      <if test="record.DEF_VALUE != null" >
+        DEF_VALUE = #{record.DEF_VALUE,jdbcType=VARCHAR},
+      </if>
+      <if test="record.DESCN != null" >
+        DESCN = #{record.DESCN,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_codes
+    set ID = #{record.ID,jdbcType=INTEGER},
+      PARENT_ID = #{record.PARENT_ID,jdbcType=INTEGER},
+      CODE_ID = #{record.CODE_ID,jdbcType=VARCHAR},
+      NAME = #{record.NAME,jdbcType=VARCHAR},
+      STATUS = #{record.STATUS,jdbcType=VARCHAR},
+      DEF_VALUE = #{record.DEF_VALUE,jdbcType=VARCHAR},
+      DESCN = #{record.DESCN,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Sys_codes" >
+    update sys_codes
+    <set >
+      <if test="PARENT_ID != null" >
+        PARENT_ID = #{PARENT_ID,jdbcType=INTEGER},
+      </if>
+      <if test="CODE_ID != null" >
+        CODE_ID = #{CODE_ID,jdbcType=VARCHAR},
+      </if>
+      <if test="NAME != null" >
+        NAME = #{NAME,jdbcType=VARCHAR},
+      </if>
+      <if test="STATUS != null" >
+        STATUS = #{STATUS,jdbcType=VARCHAR},
+      </if>
+      <if test="DEF_VALUE != null" >
+        DEF_VALUE = #{DEF_VALUE,jdbcType=VARCHAR},
+      </if>
+      <if test="DESCN != null" >
+        DESCN = #{DESCN,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{ID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Sys_codes" >
+    update sys_codes
+    set PARENT_ID = #{PARENT_ID,jdbcType=INTEGER},
+      CODE_ID = #{CODE_ID,jdbcType=VARCHAR},
+      NAME = #{NAME,jdbcType=VARCHAR},
+      STATUS = #{STATUS,jdbcType=VARCHAR},
+      DEF_VALUE = #{DEF_VALUE,jdbcType=VARCHAR},
+      DESCN = #{DESCN,jdbcType=VARCHAR}
+    where ID = #{ID,jdbcType=INTEGER}
+  </update>
+</mapper>

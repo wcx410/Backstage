@@ -14,7 +14,7 @@ import java.util.List;
 public class LookHistoryServiceImpl extends ServiceImpl<LookHistoryMapper, LookHistory> implements LookHistoryService {
     @Autowired
     LookHistoryMapper lookHistoryMapper;
-    public List<Commodity> queryFoot(Integer id) {
+    public List<LookHistory> queryFoot(Integer id) {
         return lookHistoryMapper.queryFoot(id);
     }
 }
