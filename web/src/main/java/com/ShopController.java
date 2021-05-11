@@ -89,6 +89,17 @@ public class ShopController {
         return pageUtil;
     }
 
+    //审批商户
+    @RequestMapping("/updatemerchantapply.action")
+    public boolean updatemerchantapply(int id,String system_message,int state){
+        MerchantsApply merchantsApply = new MerchantsApply();
+        merchantsApply.setId(id);
+        merchantsApply.setSystemMessage(system_message);
+        merchantsApply.setState(state);
+        boolean b = merchantsApplyService.updateById(merchantsApply);
+        return b;
+    }
+
     //查询订单信息
     @RequestMapping("/querycomorder.action")
     public PageUtil<MyOrder> querycomorder(OrderDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize){
