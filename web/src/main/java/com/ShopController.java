@@ -68,8 +68,16 @@ public class ShopController {
     //根据id修改商户信息
     @RequestMapping("/updatemerchantsbyid.action")
     public boolean updatemerchantsbyid(Merchants merchants){
-//        UpdateWrapper<Merchants> updateWrapper = new UpdateWrapper<Merchants>();
-//        updateWrapper.eq("id",merchants.getId());
+        boolean res = merchantsService.updateById(merchants);
+        return res;
+    }
+
+    //根据id删除商户信息
+    @RequestMapping("/deletemerchantsbyid.action")
+    public boolean deletemerchantsbyid(int id){
+        Merchants merchants = new Merchants();
+        merchants.setId(id);
+        merchants.setState(-1);
         boolean res = merchantsService.updateById(merchants);
         return res;
     }
@@ -79,6 +87,17 @@ public class ShopController {
     public PageUtil<MyMerchantsApply> querymerchantsstatu(MerchantsApplyDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize){
         PageUtil<MyMerchantsApply> pageUtil = this.merchantsApplyService.querymerchantsstatu(pageNo, pageSize, dto);
         return pageUtil;
+    }
+
+    //审批商户
+    @RequestMapping("/updatemerchantapply.action")
+    public boolean updatemerchantapply(int id,String system_message,int state){
+        MerchantsApply merchantsApply = new MerchantsApply();
+        merchantsApply.setId(id);
+        merchantsApply.setSystemMessage(system_message);
+        merchantsApply.setState(state);
+        boolean b = merchantsApplyService.updateById(merchantsApply);
+        return b;
     }
 
     //查询订单信息

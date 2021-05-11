@@ -12,7 +12,4 @@
             </if>
         </where>
     </select>
-    <update id="updatemerchantsstatu" parameterType="Integer">
-    UPDATE merchants_apply m,USER u SET state=#{state} WHERE m.user_id=#{userid}
-    </update>
 </mapper>
