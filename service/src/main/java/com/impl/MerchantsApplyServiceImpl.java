@@ -29,7 +29,4 @@ public class MerchantsApplyServiceImpl extends ServiceImpl<MerchantsApplyMapper,
         return pageUtil;
     }
 
-    public int updatemerchantsstatu(int id, int state) {
-        return merchantsApplyMapper.updatemerchantsstatu(id,state);
-    }
 }
