@@ -38,7 +38,7 @@ public class ShopCarController {
             Double zj = shopCarAndCommodityList.get(i).getPrice()*shopCarAndCommodityList.get(i).getNumber();
             comOrder.setMerid(shopCarAndCommodityList.get(i).getMerid());
             comOrder.setTotlemoney(zj.intValue());
-            comOrder.setOrderNumber(numberTest.getID("222"));
+            comOrder.setOrderNumber(numberTest.getID("200"));
             comOrder.setSid(shopCarAndCommodityList.get(i).getSid());
             comOrderList.add(comOrder);
         }

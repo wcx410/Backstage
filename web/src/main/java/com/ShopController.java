@@ -19,6 +19,9 @@ public class ShopController {
     @Autowired
     private ShopCarService shopCarService;
 
+    @Autowired(required = false)
+    ComOrderService comOrderService;
+
     @Autowired
     private MerchantsService merchantsService;
 
@@ -125,7 +128,7 @@ public class ShopController {
             comOrder.setDeliveryTime(new Date());
             orderlist.add(comOrder);
         }
-        boolean b = shopCarService.updateBatchById(orderlist);
+        boolean b = comOrderService.updateBatchById(orderlist);
         return b;
     }
 
@@ -141,7 +144,7 @@ public class ShopController {
             comOrder.setPickUpTime(new Date());
             orderlist.add(comOrder);
         }
-        boolean b = shopCarService.updateBatchById(orderlist);
+        boolean b = comOrderService.updateBatchById(orderlist);
         return b;
     }
 
