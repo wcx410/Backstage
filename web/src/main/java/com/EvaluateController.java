@@ -1,6 +1,5 @@
 package com;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +23,7 @@ public class EvaluateController {
 
 //添加收藏
     @RequestMapping("/add")
-    public String add(Comments comments){
+    public String add(ComMents comments){
         comments.setComtime(new Date());
         return  commentsService.save(comments)?"添加成功":"添加失败";
     }
