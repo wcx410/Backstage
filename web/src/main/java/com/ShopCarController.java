@@ -28,17 +28,18 @@ public class ShopCarController {
         return shopCarService.queryShopCarAndCommodityByUId(uid);
     }
     @RequestMapping("/addOrder")
-    public String addOrder(@RequestBody List<ShopCarAndCommodity> shopCarAndCommodityList){
+    public boolean addOrder(@RequestBody List<ShopCarAndCommodity> shopCarAndCommodityList){
 //        System.out.println(comOrder);
 //        System.out.println(shopCarAndCommodityList);
         List<ComOrder> comOrderList = new ArrayList<ComOrder>();
         ComOrder comOrder = null;
+        String strid = numberTest.getID("200");
         for (int i = 0; i < shopCarAndCommodityList.size(); i++) {
             comOrder = new ComOrder();
             Double zj = shopCarAndCommodityList.get(i).getPrice()*shopCarAndCommodityList.get(i).getNumber();
             comOrder.setMerid(shopCarAndCommodityList.get(i).getMerid());
             comOrder.setTotlemoney(zj.intValue());
-            comOrder.setOrderNumber(numberTest.getID("200"));
+            comOrder.setOrderNumber(strid);
             comOrder.setSid(shopCarAndCommodityList.get(i).getSid());
             comOrderList.add(comOrder);
         }
@@ -55,11 +56,11 @@ public class ShopCarController {
             }
 
             boolean updateShopCar = shopCarService.updateBatchById(shopCarList);
-            if (updateShopCar){
-                return "添加成功";
+            if (!updateShopCar){
+                return false;
             }
         }
-            return "添加失败";
+            return true;
 //        return shopCarService.save(comOrder)?"添加成功":"添加失败";
     }
     @RequestMapping("/getmers")
