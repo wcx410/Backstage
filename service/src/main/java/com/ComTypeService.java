@@ -13,4 +13,6 @@ public interface ComTypeService extends IService<ComType> {
     //条件查询所有商品类型
     public QueryWrapper<ComType> queryallbydto(String name);
 
+
+
 }
