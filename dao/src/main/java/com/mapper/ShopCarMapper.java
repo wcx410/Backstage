@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ShopCarMapper extends BaseMapper<ShopCar> {
 //
-    @Select(" SELECT c.*,s.`number`as number,s.id as sid  FROM commodity c INNER JOIN shopcar s ON c.`id`=s.`cid` WHERE s.`uid`=#{uid} and s.state=1")
+    @Select(" SELECT c.*,s.`number`as number,s.id as sid  FROM commodity c INNER JOIN shopcar s ON c.`id`=s.`cid` WHERE s.`uid`=#{uid} and s.state=0")
     @Results(id="CommodityMap", value={
             @Result(column="id", property="id", id=true),
             @Result(column="number", property="number"),
