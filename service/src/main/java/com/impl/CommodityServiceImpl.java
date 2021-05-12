@@ -1,6 +1,5 @@
 package com.impl;
 
-import com.ComType;
 import com.Commodity;
 import com.CommodityDto;
 import com.CommodityService;

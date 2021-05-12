@@ -165,6 +165,15 @@ public class CommodityController {
         return res;
     }
 
+    @RequestMapping("/querytypebyid.action")
+    @CrossOrigin
+    public ComType querytypebyid(Integer id) {
+        ComType type = comTypeService.getById(id);
+       return type;
+    }
+
+
+
     @RequestMapping("/queryHome")
     public Map<String,Object> queryHome(){
         Map<String,Object> map = new HashMap<String,Object>();
