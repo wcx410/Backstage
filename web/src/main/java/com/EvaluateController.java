@@ -23,7 +23,7 @@ public class EvaluateController {
 
 //添加收藏
     @RequestMapping("/add")
-    public String add(ComMents comments){
+    public String add(Comments comments){
         comments.setComtime(new Date());
         return  commentsService.save(comments)?"添加成功":"添加失败";
     }

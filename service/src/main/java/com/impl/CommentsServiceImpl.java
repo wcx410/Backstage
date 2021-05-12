@@ -1,6 +1,6 @@
 package com.impl;
 
-import com.ComMents;
+import com.Comments;
 import com.CommentsAndCommodity;
 import com.CommentsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CommentsServiceImpl extends ServiceImpl<CommentsMapper, ComMents> implements CommentsService {
+public class CommentsServiceImpl extends ServiceImpl<CommentsMapper, Comments> implements CommentsService {
     @Autowired
     CommentsMapper commentsMapper;
     @Override
