@@ -14,6 +14,8 @@ import java.util.List;
 
 @Service
 public class ComTypeServiceImpl extends ServiceImpl<ComTypeMapper, ComType> implements ComTypeService {
+
+
    //查询所有商品类型
     public List<ComType> queryAlltype() {
         QueryWrapper<ComType> queryWrapper=new QueryWrapper<ComType>();

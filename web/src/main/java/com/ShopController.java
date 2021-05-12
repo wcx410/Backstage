@@ -19,6 +19,9 @@ public class ShopController {
     @Autowired
     private ShopCarService shopCarService;
 
+    @Autowired(required = false)
+    ComOrderService comOrderService;
+
     @Autowired
     private MerchantsService merchantsService;
 
@@ -30,6 +33,9 @@ public class ShopController {
 
     @Autowired
     private PickupMerchantsService pickupMerchantsService;
+
+    @Autowired
+    private UserService userService;
 
     //商户查询订单状态为正在派送的订单信息
     @RequestMapping("/queryshouhuo.action")
@@ -68,8 +74,16 @@ public class ShopController {
     //根据id修改商户信息
     @RequestMapping("/updatemerchantsbyid.action")
     public boolean updatemerchantsbyid(Merchants merchants){
-//        UpdateWrapper<Merchants> updateWrapper = new UpdateWrapper<Merchants>();
-//        updateWrapper.eq("id",merchants.getId());
+        boolean res = merchantsService.updateById(merchants);
+        return res;
+    }
+
+    //根据id删除商户信息
+    @RequestMapping("/deletemerchantsbyid.action")
+    public boolean deletemerchantsbyid(int id){
+        Merchants merchants = new Merchants();
+        merchants.setId(id);
+        merchants.setState(-1);
         boolean res = merchantsService.updateById(merchants);
         return res;
     }
@@ -79,6 +93,29 @@ public class ShopController {
     public PageUtil<MyMerchantsApply> querymerchantsstatu(MerchantsApplyDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize){
         PageUtil<MyMerchantsApply> pageUtil = this.merchantsApplyService.querymerchantsstatu(pageNo, pageSize, dto);
         return pageUtil;
+    }
+
+    //审批商户
+    @RequestMapping("/updatemerchantapply.action")
+    public boolean updatemerchantapply(int id,String system_message,int state){
+        MerchantsApply merchantsApply = new MerchantsApply();
+        merchantsApply.setId(id);
+        merchantsApply.setSystemMessage(system_message);
+        merchantsApply.setState(state);
+        boolean b = merchantsApplyService.updateById(merchantsApply);
+        return b;
+    }
+
+    //审批商户同意后向商户表中插入数据并修改用户表中的商户id
+    @RequestMapping("/insertmerchants.action")
+    public boolean insertmerchants(Merchants merchants,int userId){
+        merchantsService.save(merchants);
+        Integer id = merchants.getId();
+        User user = new User();
+        user.setId(userId);
+        user.setMerid(id);
+        boolean b = userService.updateById(user);
+        return b;
     }
 
     //查询订单信息
@@ -106,7 +143,7 @@ public class ShopController {
             comOrder.setDeliveryTime(new Date());
             orderlist.add(comOrder);
         }
-        boolean b = shopCarService.updateBatchById(orderlist);
+        boolean b = comOrderService.updateBatchById(orderlist);
         return b;
     }
 
@@ -122,7 +159,7 @@ public class ShopController {
             comOrder.setPickUpTime(new Date());
             orderlist.add(comOrder);
         }
-        boolean b = shopCarService.updateBatchById(orderlist);
+        boolean b = comOrderService.updateBatchById(orderlist);
         return b;
     }
 

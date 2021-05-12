@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 @TableName("comments")
-public class Comments {
+public class ComMents {
     @TableId(value = "id",type = IdType.AUTO)
     private Integer id;
     private String content;
