@@ -34,6 +34,9 @@ public class ShopController {
     @Autowired
     private PickupMerchantsService pickupMerchantsService;
 
+    @Autowired
+    private UserService userService;
+
     //商户查询订单状态为正在派送的订单信息
     @RequestMapping("/queryshouhuo.action")
     public PageUtil<MyShop> queryshouhuo(ShopCarDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize){
@@ -100,6 +103,18 @@ public class ShopController {
         merchantsApply.setSystemMessage(system_message);
         merchantsApply.setState(state);
         boolean b = merchantsApplyService.updateById(merchantsApply);
+        return b;
+    }
+
+    //审批商户同意后向商户表中插入数据并修改用户表中的商户id
+    @RequestMapping("/insertmerchants.action")
+    public boolean insertmerchants(Merchants merchants,int userId){
+        merchantsService.save(merchants);
+        Integer id = merchants.getId();
+        User user = new User();
+        user.setId(userId);
+        user.setMerid(id);
+        boolean b = userService.updateById(user);
         return b;
     }
 
