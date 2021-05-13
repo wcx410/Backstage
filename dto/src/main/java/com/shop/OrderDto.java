@@ -3,6 +3,15 @@ package com.shop;
 public class OrderDto {
     private String search_ordstate;
     private String search_ordname;
+    private String s_merid;
+
+    public String getS_merid() {
+        return s_merid;
+    }
+
+    public void setS_merid(String s_merid) {
+        this.s_merid = s_merid;
+    }
 
     public String getSearch_ordname() {
         return search_ordname;
