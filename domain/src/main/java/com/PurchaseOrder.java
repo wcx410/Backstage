@@ -3,6 +3,7 @@ package com;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -13,7 +14,7 @@ public class PurchaseOrder {
     @TableId(value = "orderid",type = IdType.AUTO)
     private Integer orderid;
 
-    private Integer applicant;
+    private String applicant;
 
     private String applicantremarks;
 
@@ -23,6 +24,7 @@ public class PurchaseOrder {
 
     private String approvedbyremarks;
 
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss",timezone = "GMT+8")
     private Date operationtime;
 
 

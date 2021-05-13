@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/warehouse")
@@ -19,7 +21,7 @@ public class WareHouseController {
     @Autowired
     private WareHouseService wareHouseService;
     @Autowired
-    private WareHouseStorageService wareHouseStorageService;
+    private WareHouseStorageService storageService;
 
     //分页模糊查询所有
     @RequestMapping("/queryWarehouseAll")
@@ -59,7 +61,7 @@ public class WareHouseController {
         //根据仓库id 查询仓库存储表是否有数据 没有就返回 仓库不为空 不能执行修改
         QueryWrapper<WareHouseStorage> wrapper = new QueryWrapper<WareHouseStorage>();
         wrapper.eq("warid",wareHouse.getWarid());
-        int count = wareHouseStorageService.count(wrapper);
+        int count = storageService.count(wrapper);
         if (count!=0){
             message.flag = false;
             message.msg = "仓库不为空 不能执行修改";
@@ -85,7 +87,7 @@ public class WareHouseController {
         //根据仓库id 查询仓库存储表是否有数据 没有就返回 仓库不为空 不能执行删除
         QueryWrapper<WareHouseStorage> wrapper = new QueryWrapper<WareHouseStorage>();
         wrapper.eq("warid",warid);
-        int count = wareHouseStorageService.count(wrapper);
+        int count = storageService.count(wrapper);
         if (count!=0){
             message.flag = false;
             message.msg = "仓库不为空 不能执行删除";
@@ -99,6 +101,33 @@ public class WareHouseController {
         }else {
             message.flag = false;
             message.msg = "删除失败×";
+            return message;
+        }
+
+    }
+
+    //根据仓库id查询所有仓库存储商品
+    @RequestMapping("/queryWareHouseStorageAll")
+    public List<WareHouseStorage> queryWareHouseStorageAll(String id) {
+        System.out.println(id);
+        List<WareHouseStorage> wareHouseStorages = storageService.queryWareHouseStorageAll(id);
+        return wareHouseStorages;
+    }
+
+    //根据仓库id 和 传过来的状态 修改仓库状态
+    @RequestMapping("/donjieOrjiedon")
+    public Message donjieOrjiedon(WareHouse wareHouse){
+        Message message = new Message();
+
+        if (wareHouse.getWarstate().equals(0)){
+            wareHouseService.updateById(wareHouse);
+            message.flag = true;
+            message.msg = "冻结成功√";
+            return message;
+        }else {
+            wareHouseService.updateById(wareHouse);
+            message.flag = true;
+            message.msg = "解冻成功√";
             return message;
         }
 
