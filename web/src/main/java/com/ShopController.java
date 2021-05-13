@@ -1,5 +1,6 @@
 package com;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.shop.MerchantsApplyDto;
 import com.shop.MerchantsDto;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.PriorityQueue;
 
 @RequestMapping("/shop")
 @RestController
@@ -19,8 +21,8 @@ public class ShopController {
     @Autowired
     private ShopCarService shopCarService;
 
-    @Autowired(required = false)
-    ComOrderService comOrderService;
+    @Autowired
+    private ComOrderService comOrderService;
 
     @Autowired
     private MerchantsService merchantsService;
@@ -37,9 +39,19 @@ public class ShopController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PaisongjiluService paisongjiluService;
+
+    @Autowired
+    private PaisongyuanService paisongyuanService;
+
+    @Autowired
+    private CarService carService;
+
     //商户查询订单状态为正在派送的订单信息
     @RequestMapping("/queryshouhuo.action")
     public PageUtil<MyShop> queryshouhuo(ShopCarDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize){
+        dto.setS_merid("10");
         PageUtil<MyShop> pageUtil = this.shopCarService.queryshouhuo(pageNo, pageSize, dto);
         return pageUtil;
     }
@@ -47,6 +59,7 @@ public class ShopController {
     //商户查询订单状态为待提货的订单信息
     @RequestMapping("/querytihuo.action")
     public PageUtil<MyShop> querytihuo(ShopCarDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize){
+        dto.setS_merid("10");
         PageUtil<MyShop> pageUtil = this.shopCarService.querytihuo(pageNo, pageSize, dto);
         return pageUtil;
     }
@@ -125,6 +138,7 @@ public class ShopController {
         if(dto!=null ){
             if(dto.getSearch_ordstate().equals("-1")){
                 dto.setSearch_ordstate("");
+                dto.setS_merid("10");
             }
             pageUtil = this.orderService.querycomorder(pageNo, pageSize, dto);
         }
@@ -135,14 +149,35 @@ public class ShopController {
     @RequestMapping("/updatepshopcars.action")
     public boolean updatepshopcars(@RequestBody List<Integer> ids){
         List<ComOrder> orderlist = new ArrayList<ComOrder>();
+        List<PaiSongJiLu> paiSongJiLuList = new ArrayList<PaiSongJiLu>();
+        List<PaiSongYuan> paiSongYuanList = new ArrayList<PaiSongYuan>();
         ComOrder comOrder = null;
+        PaiSongYuan paiSongYuan = null;
+        PaiSongJiLu paiSongJiLu = null;
+        Car car = null;
         for (int i =0;i<ids.size();i++){
             comOrder = new ComOrder();
             comOrder.setId(ids.get(i));
             comOrder.setOrdstate(2);
             comOrder.setDeliveryTime(new Date());
             orderlist.add(comOrder);
+            //修改 配送记录表状态为（已派送完2），派送员表状态为（闲置0），车辆表状态为（闲置0）
+            paisongjiluService.updatepaisongjilu(ids.get(i));
+            QueryWrapper<PaiSongJiLu> paiSongJiLuQueryWrapper = new QueryWrapper<PaiSongJiLu>();
+            paiSongJiLuQueryWrapper.eq("ddid",ids.get(i));
+            paiSongJiLu = paisongjiluService.getOne(paiSongJiLuQueryWrapper);
+            paiSongJiLuList.add(paiSongJiLu);
         }
+        for (int i = 0; i <paiSongJiLuList.size() ; i++) {
+            paiSongYuan = new PaiSongYuan();
+            car = new Car();
+            car.setId(paiSongJiLuList.get(i).getCarid());
+            car.setState(0);
+            paiSongYuan.setId(paiSongJiLuList.get(i).getPid());
+            paiSongYuan.setState(0);
+            paiSongYuanList.add(paiSongYuan);
+        }
+        paisongyuanService.updateBatchById(paiSongYuanList);
         boolean b = comOrderService.updateBatchById(orderlist);
         return b;
     }
