@@ -1,6 +1,7 @@
 package com;
 
 public class MyShop {
+    private int merid;//用户表中的商户id
     private int id;//订单的id
     private int uid;//用户id
     private int mid;//商户id
@@ -16,6 +17,14 @@ public class MyShop {
     private String ordstate;
     private String deliveryTime;
     private String pickUpTime;
+
+    public int getMerid() {
+        return merid;
+    }
+
+    public void setMerid(int merid) {
+        this.merid = merid;
+    }
 
     public int getUid() {
         return uid;

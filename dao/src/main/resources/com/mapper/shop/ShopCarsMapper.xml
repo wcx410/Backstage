@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.mapper.shop.ShopCarsMapper" >
     <select id="queryshouhuo" resultType="com.MyShop" parameterType="com.shop.ShopCarDto">
-        SELECT o.merid mid,u.id uid,o.id,o.`order_number` orderNumber,o.`ordstate`,u.`username`,
+        SELECT u.merid,o.merid mid,u.id uid,o.id,o.`order_number` orderNumber,o.`ordstate`,u.`username`,
         c.`image`,c.`com_type` comType,o.totlemoney,u.`uname`,c.`name`,s.`number`,u.`phone`,
         o.delivery_time deliveryTime,o.pick_up_time pickUpTime
         FROM shopcar s INNER JOIN USER u ON s.`uid`=u.`id`
@@ -13,10 +13,13 @@
             <if test="search_uname != null and search_uname != ''">
                 and uname like concat('%',#{search_uname},'%')
             </if>
+            <if test="s_merid != null and s_merid != ''">
+                and u.merid=#{s_merid}
+            </if>
         </where>
     </select>
     <select id="querytihuo" resultType="com.MyShop" parameterType="com.shop.ShopCarDto">
-        SELECT o.merid mid,u.id uid,o.id,o.`order_number` orderNumber,o.`ordstate`,u.`username`,
+        SELECT u.merid,o.merid mid,u.id uid,o.id,o.`order_number` orderNumber,o.`ordstate`,u.`username`,
         c.`image`,c.`com_type` comType,o.totlemoney,u.`uname`,c.`name`,s.`number`,u.`phone`,
         o.delivery_time deliveryTime,o.pick_up_time pickUpTime
         FROM shopcar s INNER JOIN USER u ON s.`uid`=u.`id`
@@ -26,6 +29,9 @@
             <if test="1==1">and o.`ordstate`=2</if>
             <if test="search_uname != null and search_uname != ''">
                 and uname like concat('%',#{search_uname},'%')
+            </if>
+            <if test="s_merid != null and s_merid != ''">
+                and u.merid=#{s_merid}
             </if>
         </where>
     </select>
