@@ -1,5 +1,7 @@
 package com;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class MyMerchantsApply {
@@ -11,6 +13,7 @@ public class MyMerchantsApply {
 
     private String address;
 
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private Date applyTime;
 
     private String userMessage;
@@ -41,9 +44,40 @@ public class MyMerchantsApply {
 
     private Integer merid;
 
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private Date lastLoginTime;
 
     private Integer isDelete;
+
+    private String photos;
+
+    private String idcardimagezheng;
+
+    private String idcardimagefan;
+
+    public String getIdcardimagezheng() {
+        return idcardimagezheng;
+    }
+
+    public void setIdcardimagezheng(String idcardimagezheng) {
+        this.idcardimagezheng = idcardimagezheng;
+    }
+
+    public String getIdcardimagefan() {
+        return idcardimagefan;
+    }
+
+    public void setIdcardimagefan(String idcardimagefan) {
+        this.idcardimagefan = idcardimagefan;
+    }
+
+    public String getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(String photos) {
+        this.photos = photos;
+    }
 
     public Integer getId() {
         return id;

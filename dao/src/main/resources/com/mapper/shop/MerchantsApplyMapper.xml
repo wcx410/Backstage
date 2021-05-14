@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.mapper.shop.MerchantsApplyMapper" >
     <select id="querymerchantsstatu" resultType="com.MyMerchantsApply" parameterType="com.shop.MerchantsApplyDto">
-        SELECT user_id userId,uname,phone,id_card idCard,m.id,NAME,address,apply_time applyTime,
+        SELECT idcardimagezheng,idcardimagefan, photos,user_id userId,uname,phone,id_card idCard,m.id,NAME,address,apply_time applyTime,
         user_message userMessage,state,system_message systemMessage,is_read isRead
         FROM merchants_apply m INNER JOIN USER u ON m.user_id=u.id
         <where>

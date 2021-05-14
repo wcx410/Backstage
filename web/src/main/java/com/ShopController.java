@@ -50,16 +50,16 @@ public class ShopController {
 
     //商户查询订单状态为正在派送的订单信息
     @RequestMapping("/queryshouhuo.action")
-    public PageUtil<MyShop> queryshouhuo(ShopCarDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize){
-        dto.setS_merid("10");
+    public PageUtil<MyShop> queryshouhuo(ShopCarDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize,Integer merid){
+        dto.setS_merid("1");
         PageUtil<MyShop> pageUtil = this.shopCarService.queryshouhuo(pageNo, pageSize, dto);
         return pageUtil;
     }
 
     //商户查询订单状态为待提货的订单信息
     @RequestMapping("/querytihuo.action")
-    public PageUtil<MyShop> querytihuo(ShopCarDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize){
-        dto.setS_merid("10");
+    public PageUtil<MyShop> querytihuo(ShopCarDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize,Integer merid){
+        dto.setS_merid("1");
         PageUtil<MyShop> pageUtil = this.shopCarService.querytihuo(pageNo, pageSize, dto);
         return pageUtil;
     }
@@ -136,12 +136,12 @@ public class ShopController {
 
     //查询订单信息
     @RequestMapping("/querycomorder.action")
-    public PageUtil<MyOrder> querycomorder(OrderDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize){
+    public PageUtil<MyOrder> querycomorder(OrderDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize,Integer merid){
         PageUtil<MyOrder> pageUtil = null;
         if(dto!=null ){
             if(dto.getSearch_ordstate().equals("-1")){
                 dto.setSearch_ordstate("");
-                dto.setS_merid("10");
+                dto.setS_merid("1");
             }
             pageUtil = this.orderService.querycomorder(pageNo, pageSize, dto);
         }
