@@ -27,7 +27,7 @@ public class EmployeeController {
     private EmpRoleService empRoleService;
 
     @RequestMapping("/backLogin")
-    public Integer backLogin(Employee emp, HttpServletRequest request){
+    public Employee backLogin(Employee emp, HttpServletRequest request){
         QueryWrapper<Employee> empQueryWrapper = new QueryWrapper<Employee>();
         if(!StringUtils.isEmpty(emp.getName())){
             empQueryWrapper.eq("name",emp.getName());
@@ -35,9 +35,9 @@ public class EmployeeController {
         Employee one = employeeService.getOne(empQueryWrapper);
         if(one!=null){
             request.getSession().setAttribute("employee",one);
-            return one.getId();
+            return one;
         }
-        return 0;
+        return null;
     }
     //分页条件查询商品数据
     @RequestMapping("/queryallemp")

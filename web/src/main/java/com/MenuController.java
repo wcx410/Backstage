@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @CrossOrigin
@@ -48,5 +50,30 @@ public class MenuController {
     public List<Menu> queryAllPer(){
         List<Menu> list = menuService.list();
         return list;
+    }
+    @RequestMapping("/querymenus")
+    public Set<MyMenu> convertMenu(Set<MyMenu> menus,Integer parentId){
+        Set<MyMenu> myMenus = new HashSet<MyMenu>();
+        for (MyMenu sysMenus:menus){
+            if(sysMenus.getParent() == parentId){
+                MyMenu menus1 = new MyMenu();
+                menus1.setId(sysMenus.getId());
+                menus1.setParent(sysMenus.getParent());
+                menus1.setName(sysMenus.getName());
+                menus1.setIcon(sysMenus.getIcon());
+                menus1.setIcon(sysMenus.getUrl());
+                menus1.setLayer(sysMenus.getLayer());
+                menus1.setType(sysMenus.getType());
+                menus1.setChecked(sysMenus.isChecked());
+                //
+                Set<MyMenu> myMenus1 = convertMenu(menus,sysMenus.getId());
+                menus1.setChildren(myMenus1);
+                myMenus.add(menus1);
+            }
+        }
+        if(myMenus.size()==0){
+            return null;
+        }
+        return myMenus;
     }
 }

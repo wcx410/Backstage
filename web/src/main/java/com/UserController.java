@@ -32,7 +32,7 @@ public class UserController {
         return save ? "register success":"register fail";
     }
     @RequestMapping("/login")
-    public Integer login(User user, HttpServletRequest request){
+    public User login(User user, HttpServletRequest request){
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<User>();
         if(!StringUtils.isEmpty(user.getUsername())){
             userQueryWrapper.eq("username",user.getUsername());
@@ -40,8 +40,8 @@ public class UserController {
         User one = userService.getOne(userQueryWrapper);
         if(one!=null){
             request.getSession().setAttribute("user",one);
-            return one.getId();
+            return one;
         }
-        return 0;
+        return null;
     }
 }
