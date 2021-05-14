@@ -63,6 +63,9 @@ public class ShopController {
         PageUtil<MyShop> pageUtil = this.shopCarService.querytihuo(pageNo, pageSize, dto);
         return pageUtil;
     }
+    //商户查询昨日收入
+//    @RequestMapping("/queryztsr")
+//    public
 
     //查询所有商户信息
     @RequestMapping("/querymerchants.action")
