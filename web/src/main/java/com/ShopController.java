@@ -7,8 +7,10 @@ import com.shop.MerchantsDto;
 import com.shop.OrderDto;
 import com.shop.ShopCarDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,16 +52,18 @@ public class ShopController {
 
     //商户查询订单状态为正在派送的订单信息
     @RequestMapping("/queryshouhuo.action")
-    public PageUtil<MyShop> queryshouhuo(ShopCarDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize,Integer shanghuid){
-        dto.setS_merid(shanghuid);
+    public PageUtil<MyShop> queryshouhuo(HttpServletRequest request, ShopCarDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize){
+        User user = (User) request.getSession().getAttribute("user");
+        dto.setS_merid(user.getMerid());
         PageUtil<MyShop> pageUtil = this.shopCarService.queryshouhuo(pageNo, pageSize, dto);
         return pageUtil;
     }
 
     //商户查询订单状态为待提货的订单信息
     @RequestMapping("/querytihuo.action")
-    public PageUtil<MyShop> querytihuo(ShopCarDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize,Integer shanghuid){
-        dto.setS_merid(shanghuid);
+    public PageUtil<MyShop> querytihuo(HttpServletRequest request, ShopCarDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize){
+        User user = (User) request.getSession().getAttribute("user");
+        dto.setS_merid(user.getMerid());
         PageUtil<MyShop> pageUtil = this.shopCarService.querytihuo(pageNo, pageSize, dto);
         return pageUtil;
     }
@@ -136,12 +140,13 @@ public class ShopController {
 
     //查询订单信息
     @RequestMapping("/querycomorder.action")
-    public PageUtil<MyOrder> querycomorder(OrderDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize,Integer shanghuid){
+    public PageUtil<MyOrder> querycomorder(HttpServletRequest request, OrderDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize){
         PageUtil<MyOrder> pageUtil = null;
         if(dto!=null ){
             if(dto.getSearch_ordstate().equals("-1")){
                 dto.setSearch_ordstate("");
-                dto.setS_merid(shanghuid);
+                User user = (User) request.getSession().getAttribute("user");
+                dto.setS_merid(user.getMerid());
             }
             pageUtil = this.orderService.querycomorder(pageNo, pageSize, dto);
         }
