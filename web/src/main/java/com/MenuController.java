@@ -55,10 +55,10 @@ public class MenuController {
         //所有权限
         List<Menu> menus = menuService.list();
         //角色拥有的权限
-        QueryWrapper<Permission> permissionQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<Permission> permissionQueryWrapper = new QueryWrapper<Permission>();
         permissionQueryWrapper.eq("role",id);
         List<Permission> listper = permissionService.list(permissionQueryWrapper);
-        List<Menu> menuList = new ArrayList<>();
+        List<Menu> menuList = new ArrayList<Menu>();
         for (int i = 0; i < listper.size(); i++) {
             int j = listper.get(i).getMenu();
             menuList.add(menuService.getById(j));
