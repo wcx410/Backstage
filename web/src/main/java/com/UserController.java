@@ -37,6 +37,9 @@ public class UserController {
         if(!StringUtils.isEmpty(user.getUsername())){
             userQueryWrapper.eq("username",user.getUsername());
         }
+        if(!StringUtils.isEmpty(user.getPassword())){
+            userQueryWrapper.eq("password",user.getPassword());
+        }
         User one = userService.getOne(userQueryWrapper);
         if(one!=null){
             request.getSession().setAttribute("user",one);

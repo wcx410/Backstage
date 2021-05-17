@@ -36,11 +36,13 @@ public class RoleController {
         return iPage;
     }
     //添加
+    @RequestMapping("/add")
     public Boolean add(Role role){
         boolean save = roleService.save(role);
         return save;
     }
     //修改
+    @RequestMapping("/update")
     public Boolean update(Role role){
         QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<Role>();
         roleQueryWrapper.eq("id",role.getId());

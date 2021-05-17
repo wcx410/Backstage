@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -20,6 +17,8 @@ import java.util.Set;
 public class MenuController {
     @Autowired
     private MenuService menuService;
+    @Autowired
+    private PermissionService permissionService;
 
     @RequestMapping("/queryMenu.action")
     public List<Menus> queryMenu(){
@@ -51,29 +50,19 @@ public class MenuController {
         List<Menu> list = menuService.list();
         return list;
     }
-    @RequestMapping("/querymenus")
-    public Set<MyMenu> convertMenu(Set<MyMenu> menus,Integer parentId){
-        Set<MyMenu> myMenus = new HashSet<MyMenu>();
-        for (MyMenu sysMenus:menus){
-            if(sysMenus.getParent() == parentId){
-                MyMenu menus1 = new MyMenu();
-                menus1.setId(sysMenus.getId());
-                menus1.setParent(sysMenus.getParent());
-                menus1.setName(sysMenus.getName());
-                menus1.setIcon(sysMenus.getIcon());
-                menus1.setIcon(sysMenus.getUrl());
-                menus1.setLayer(sysMenus.getLayer());
-                menus1.setType(sysMenus.getType());
-                menus1.setChecked(sysMenus.isChecked());
-                //
-                Set<MyMenu> myMenus1 = convertMenu(menus,sysMenus.getId());
-                menus1.setChildren(myMenus1);
-                myMenus.add(menus1);
-            }
+    @RequestMapping("/querybyid")
+    public List<Menu> queryById(String id){
+        //所有权限
+        List<Menu> menus = menuService.list();
+        //角色拥有的权限
+        QueryWrapper<Permission> permissionQueryWrapper = new QueryWrapper<>();
+        permissionQueryWrapper.eq("role",id);
+        List<Permission> listper = permissionService.list(permissionQueryWrapper);
+        List<Menu> menuList = new ArrayList<>();
+        for (int i = 0; i < listper.size(); i++) {
+            int j = listper.get(i).getMenu();
+            menuList.add(menuService.getById(j));
         }
-        if(myMenus.size()==0){
-            return null;
-        }
-        return myMenus;
+        return menuList;
     }
 }

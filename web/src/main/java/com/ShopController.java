@@ -67,9 +67,44 @@ public class ShopController {
         PageUtil<MyShop> pageUtil = this.shopCarService.querytihuo(pageNo, pageSize, dto);
         return pageUtil;
     }
+    //商户查询总收入
+    @RequestMapping("/queryzsr")
+    public Integer queryshouhuo(HttpServletRequest request){
+        QueryWrapper<ShopCar> shopCarQueryWrapper = new QueryWrapper<>();
+        User emp= (User) request.getSession().getAttribute("user");
+        shopCarQueryWrapper.eq("uid",emp.getId());
+        //获取购物车的ID
+        ShopCar one = shopCarService.getOne(shopCarQueryWrapper);
+        QueryWrapper<ComOrder> comOrderQueryWrapper = new QueryWrapper<>();
+        comOrderQueryWrapper.ne("ordstate",4).ne("ordstate",5);
+        comOrderQueryWrapper.eq("isdelete",0);
+        comOrderQueryWrapper.eq("sid",one.getId());
+        List<ComOrder> list = comOrderService.list(comOrderQueryWrapper);
+        Integer prices = 0;
+        for (int i = 0; i < list.size(); i++) {
+            Integer j = list.get(i).getTotlemoney();
+            prices+=j;
+        }
+        return prices;
+    }
     //商户查询昨日收入
-//    @RequestMapping("/queryztsr")
-//    public
+    @RequestMapping("/queryzrsr")
+    public Integer queryzsr(Integer id){
+        QueryWrapper<ShopCar> shopCarQueryWrapper = new QueryWrapper<>();
+        shopCarQueryWrapper.eq("uid",id);
+        ShopCar one = shopCarService.getOne(shopCarQueryWrapper);
+        QueryWrapper<ComOrder> comOrderQueryWrapper = new QueryWrapper<>();
+        comOrderQueryWrapper.ne("ordstate",4).ne( "ordstate",5);
+        comOrderQueryWrapper.eq("isdelete",0);
+        comOrderQueryWrapper.eq("sid",one.getId());
+        List<ComOrder> list = comOrderService.list(comOrderQueryWrapper);
+        Integer prices = 0;
+        for (int i = 0; i < list.size(); i++) {
+            Integer j = list.get(i).getTotlemoney();
+            prices+=j;
+        }
+        return prices;
+    }
 
     //查询所有商户信息
     @RequestMapping("/querymerchants.action")
