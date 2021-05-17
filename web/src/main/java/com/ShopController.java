@@ -70,12 +70,12 @@ public class ShopController {
     //商户查询总收入
     @RequestMapping("/queryzsr")
     public Integer queryshouhuo(HttpServletRequest request){
-        QueryWrapper<ShopCar> shopCarQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<ShopCar> shopCarQueryWrapper = new QueryWrapper<ShopCar>();
         User emp= (User) request.getSession().getAttribute("user");
         shopCarQueryWrapper.eq("uid",emp.getId());
         //获取购物车的ID
         ShopCar one = shopCarService.getOne(shopCarQueryWrapper);
-        QueryWrapper<ComOrder> comOrderQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<ComOrder> comOrderQueryWrapper = new QueryWrapper<ComOrder>();
         comOrderQueryWrapper.ne("ordstate",4).ne("ordstate",5);
         comOrderQueryWrapper.eq("isdelete",0);
         comOrderQueryWrapper.eq("sid",one.getId());
@@ -90,10 +90,10 @@ public class ShopController {
     //商户查询昨日收入
     @RequestMapping("/queryzrsr")
     public Integer queryzsr(Integer id){
-        QueryWrapper<ShopCar> shopCarQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<ShopCar> shopCarQueryWrapper = new QueryWrapper<ShopCar>();
         shopCarQueryWrapper.eq("uid",id);
         ShopCar one = shopCarService.getOne(shopCarQueryWrapper);
-        QueryWrapper<ComOrder> comOrderQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<ComOrder> comOrderQueryWrapper = new QueryWrapper<ComOrder>();
         comOrderQueryWrapper.ne("ordstate",4).ne( "ordstate",5);
         comOrderQueryWrapper.eq("isdelete",0);
         comOrderQueryWrapper.eq("sid",one.getId());
