@@ -257,4 +257,17 @@ public class ShopController {
         boolean b = pickupMerchantsService.saveBatch(pickupMerchantsList);
         return b;
     }
+
+    //根据商户id查询订单信息,判断该商户有没有订单
+    @RequestMapping("/querybymerid.action")
+    public boolean querybymerid(int mid){
+        QueryWrapper<ComOrder> comOrderQueryWrapper = new QueryWrapper<ComOrder>();
+        comOrderQueryWrapper.eq("merid", mid);
+        List<ComOrder> list = comOrderService.list(comOrderQueryWrapper);
+        if(list.size()>0){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }
