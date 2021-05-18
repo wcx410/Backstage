@@ -21,6 +21,7 @@ public class SpaceController {
 //    根据id修改用户，且只修改前端传过来的值
     @RequestMapping("/updateUser")
     public String updateUser(User user){
+        user.setHeadPortrait("img"+user.getHeadPortrait());
         boolean b = userService.updateById(user);
         return b?"修改成功":"修改失败";
     }

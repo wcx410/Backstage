@@ -29,7 +29,10 @@
 		<property name="paramName" value="choiceLanguage"/>
 	</bean>
 	<!--文件上传的解析器-->
-
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="2097152"></property>
+		<property name="defaultEncoding" value="UTF-8"></property>
+	</bean>
 
 	<!--注册类型转换器-->
 	<!--<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">

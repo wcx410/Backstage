@@ -2,6 +2,7 @@ package com;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shop.MerchantsApplyDto;
+import org.springframework.stereotype.Service;
 
 
 public interface MerchantsApplyService extends IService<MerchantsApply> {
