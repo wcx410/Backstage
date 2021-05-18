@@ -42,7 +42,6 @@ public class MerchantsApplyController {
         apply.setIdcardimagezheng("img/"+apply.getIdcardimagezheng());
         apply.setIdcardimagefan("img/"+apply.getIdcardimagefan());
         apply.setState(0);
-        System.out.println(apply);
 //        merchantsApplyService.save(apply)?"添加成功":
         return merchantsApplyService.save(apply)?"申请成功":"申请失败";
     }

@@ -34,6 +34,36 @@ public class Merchants {
 
     private Integer state;
 
+    private String photos;
+
+    private String idcardimagezheng;
+
+    private String idcardimagefan;
+
+    public String getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(String photos) {
+        this.photos = photos;
+    }
+
+    public String getIdcardimagezheng() {
+        return idcardimagezheng;
+    }
+
+    public void setIdcardimagezheng(String idcardimagezheng) {
+        this.idcardimagezheng = idcardimagezheng;
+    }
+
+    public String getIdcardimagefan() {
+        return idcardimagefan;
+    }
+
+    public void setIdcardimagefan(String idcardimagefan) {
+        this.idcardimagefan = idcardimagefan;
+    }
+
     public Integer getId() {
         return id;
     }

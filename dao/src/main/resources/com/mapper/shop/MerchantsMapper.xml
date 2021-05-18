@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.mapper.shop.MerchantsMapper" >
     <select id="querymerchants" resultType="com.Merchants" parameterType="com.shop.MerchantsDto">
-        SELECT id,name,address,phone,longitude,latitude,open_time_from openTimeFrom
+        SELECT idcardimagezheng,idcardimagefan, photos,id,name,address,phone,longitude,latitude,open_time_from openTimeFrom
          ,open_time_to openTimeTo,remark,state FROM merchants
         <where>
             <if test="search_shname != null and search_shname != ''">

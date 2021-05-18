@@ -3,10 +3,10 @@
 <mapper namespace="com.mapper.shop.MerchantsApplyMapper" >
     <select id="querymerchantsstatu" resultType="com.MyMerchantsApply" parameterType="com.shop.MerchantsApplyDto">
         SELECT idcardimagezheng,idcardimagefan, photos,user_id userId,uname,phone,id_card idCard,m.id,NAME,address,apply_time applyTime,
-        user_message userMessage,state,system_message systemMessage,is_read isRead
+        user_message userMessage,m.state,system_message systemMessage,is_read isRead
         FROM merchants_apply m INNER JOIN USER u ON m.user_id=u.id
         <where>
-            <if test="1==1">and state=0</if>
+            <if test="1==1">and m.state=0</if>
             <if test="search_name != null and search_name != ''">
                 and uname like concat('%',#{search_name},'%')
             </if>
