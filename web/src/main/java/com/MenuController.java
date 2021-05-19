@@ -90,7 +90,7 @@ public class MenuController {
             menuList.add(menusService.getById(j));
         }
         Menus menus1 = new Menus();
-        List<Integer> integers = new ArrayList<>();
+        List<Integer> integers = new ArrayList<Integer>();
         for (int i = 0; i < menuList.size(); i++) {
             menuList.get(i).setChecked(true);
             integers.add(menuList.get(i).getId());
@@ -104,11 +104,11 @@ public class MenuController {
         for (int i = 0; i < idss.size(); i++) {
             role = idss.get(i).getRole();
         }
-        QueryWrapper<Permission> permissionQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<Permission> permissionQueryWrapper = new QueryWrapper<Permission>();
         permissionQueryWrapper.eq("role",role);
         permissionService.remove(permissionQueryWrapper);
         //
-        List<Permission> permissions = new ArrayList<>();
+        List<Permission> permissions = new ArrayList<Permission>();
         for (int i = 0; i < idss.size(); i++) {
             Permission permission = new Permission();
             permission.setMenu(idss.get(i).getMenu());
