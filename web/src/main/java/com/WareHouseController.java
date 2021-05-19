@@ -132,4 +132,11 @@ public class WareHouseController {
         }
 
     }
+
+    //根据仓库id查询所有仓库存储商品
+    @RequestMapping("/warehouseAll")
+    public List<WareHouse> warehouseAll() {
+        return wareHouseService.list();
+        //return wareHouseService.warehouseAll();
+    }
 }

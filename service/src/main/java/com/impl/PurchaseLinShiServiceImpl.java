@@ -24,4 +24,14 @@ public class PurchaseLinShiServiceImpl extends ServiceImpl<PurchaseLinShiMapper,
     public List<PurchaseLinShi> PurchaseLinShiAll() {
         return linShiMapper.PurchaseLinShiAll();
     }
+
+    @Override
+    public int updatePurchaseLinShicommoditysum(String commodityid, String caigousum) {
+        return linShiMapper.updatePurchaseLinShicommoditysum(commodityid,caigousum);
+    }
+
+    @Override
+    public int addLinShiPurchase(String commodityid, String caigousum) {
+        return linShiMapper.addLinShiPurchase(commodityid,caigousum);
+    }
 }

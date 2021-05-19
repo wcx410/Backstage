@@ -15,4 +15,25 @@ public class WareHouseServiceImpl  extends ServiceImpl<WareHouseMapper, WareHous
     public int updateWareHouseRon(String chuwarid, Integer shopron) {
         return wareHouseMapper.updateWareHouseRon(chuwarid,shopron);
     }
+
+    @Override
+    public int queryshop(String commodityid, String ruwarid) {
+        return wareHouseMapper.queryshop(commodityid,ruwarid);
+    }
+
+    @Override
+    public int addshopnumber(String commodityid, String ruwarid, String chunumber) {
+        return wareHouseMapper.addshopnumber(commodityid, ruwarid, chunumber);
+    }
+
+    @Override
+    public int updateWareHouseRon1(String ruwarid, String shopron) {
+        return wareHouseMapper.updateWareHouseRon1(ruwarid, shopron);
+    }
+
+    @Override
+    public int addwarehousestorageshop(String commodityid, String ruwarid, String chunumber) {
+        return wareHouseMapper.addwarehousestorageshop(commodityid, ruwarid, chunumber);
+    }
+
 }

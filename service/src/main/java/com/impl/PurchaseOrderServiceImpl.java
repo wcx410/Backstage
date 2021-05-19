@@ -23,4 +23,24 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, P
     public int updatepurchaseorder(PurchaseOrder purchaseOrder) {
         return orderMapper.updatepurchaseorder(purchaseOrder);
     }
+
+    @Override
+    public List<PurchaseOrder> purchaseorderAllnowei() {
+        return orderMapper.purchaseorderAllnowei();
+    }
+
+    @Override
+    public int addPurchaseOrder(String applicant, String applicantremarks) {
+        return orderMapper.addPurchaseOrder(applicant,applicantremarks);
+    }
+
+    @Override
+    public int queryorderidBig() {
+        return orderMapper.queryorderidBig();
+    }
+
+    @Override
+    public int rukuUpdateOrderstate(Integer orderid) {
+        return orderMapper.rukuUpdateOrderstate(orderid);
+    }
 }
