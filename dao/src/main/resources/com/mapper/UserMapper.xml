@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.UserMapper">
+<!--    <select id="selectByState">-->
+<!--        select user where state=#{state}-->
+<!--    </select>-->
+    <update id="updateuser">
+        UPDATE USER SET username=#{username},head_portrait=#{headPortrait},uname=#{uname},id_card=#{idCard},sex=#{sex},phone=#{phone},signature=#{signature} WHERE id=#{id}
+    </update>
+<!--删除用户(修改is_delete状态0正常1注销)    -->
+    <update id="Deluser">
+<!--            <if test="#{isDelete}==0">-->
+        update user set is_delete=1 where id=#{id}
+<!--            </if>-->
+<!--            <if test="#{isDelete}==1">-->
+<!--                update user set is_delete=0 where id=#{id}-->
+<!--            </if>-->
+    </update>
+    <update id="Delzero">
+        update user set is_delete=0 where id=#{id}
+    </update>
+</mapper>

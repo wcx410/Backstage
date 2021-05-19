@@ -55,6 +55,7 @@
 
 	<!-- 4.配置mybatis的自动扫描：利用Spring生成mapper接口的代理类对象 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+
 	<!-- 提供要扫描的接口和映射文件所在的包 -->
 	<property name="basePackage" value="com.mapper"></property>
 	<property name="sqlSessionFactoryBeanName"

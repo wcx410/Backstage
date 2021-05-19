@@ -29,4 +29,7 @@ public interface CommodityMapper extends BaseMapper<Commodity> {
             "        order by rand()\n" +
             "        limit 10")
     List<Commodity> queryGuessLikes();
+
+    @Select("select * from commodity where id = #{id}")
+    Commodity getById(@Param("id") Integer id);
 }
