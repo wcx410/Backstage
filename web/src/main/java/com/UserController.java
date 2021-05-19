@@ -22,6 +22,37 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping("/register")
+    @ResponseBody
+    public String register(User user){
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<User>();
+        if(!StringUtils.isEmpty(user.getPhone())){
+            userQueryWrapper.eq("phone",user.getPhone());
+        }
+        User one = userService.getOne(userQueryWrapper);
+        if(one!=null){
+            return "电话号码已存在";
+        }
+        boolean save = userService.save(user);
+        return save ? "register success":"register fail";
+    }
+
+    @RequestMapping("/login")
+    public User login(User user, HttpServletRequest request){
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<User>();
+        if(!StringUtils.isEmpty(user.getUsername())){
+            userQueryWrapper.eq("username",user.getUsername());
+        }
+        if(!StringUtils.isEmpty(user.getPassword())){
+            userQueryWrapper.eq("password",user.getPassword());
+        }
+        User one = userService.getOne(userQueryWrapper);
+        if(one!=null){
+            request.getSession().setAttribute("user",one);
+            return one;
+        }
+        return null;
+    }
     //组装查询和分页
     @RequestMapping("/queryUser.action")
     public IPage<User> queryUser(@RequestParam(value = "pageno",defaultValue = "1")int pageno,

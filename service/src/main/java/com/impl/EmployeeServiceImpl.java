@@ -24,7 +24,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         if(!StringUtils.isEmpty(employeeDto.getSearchSate())){
             queryWrapper.eq("state",employeeDto.getSearchSate());
         }else{
-            queryWrapper.eq("state",1);
+            queryWrapper.ne("state",-1);
         }
         return queryWrapper;
     }

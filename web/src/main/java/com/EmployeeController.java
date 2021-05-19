@@ -7,8 +7,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -36,7 +39,7 @@ public class EmployeeController {
         }
         return null;
     }
-    //分页条件查询商品数据
+    //分页条件查询员工数据
     @RequestMapping("/queryallemp")
     public IPage<Employee> queryAllEmp(@RequestParam(value = "page",defaultValue = "1") int pageno,
                                        @RequestParam(value = "rows",defaultValue = "5")int pagesize,
@@ -47,7 +50,19 @@ public class EmployeeController {
     }
     //添加员工
     @RequestMapping("/add")
-    public Boolean add(Employee employee){
+    public Boolean add(Employee employee, @RequestPart("imgFile") MultipartFile imgFile,HttpServletRequest request){
+
+        if(imgFile!=null) {
+            //获取当前项目发布地址/img
+            String path = request.getServletContext().getRealPath("/img");
+
+            try {
+                imgFile.transferTo(new File(path, imgFile.getOriginalFilename()));
+            } catch (IOException e) {
+
+            }
+        }
+        employee.setImage("img"+imgFile.getOriginalFilename());
         employee.setLastLoginTime(new Date());
         employee.setState(1);
         boolean save = employeeService.save(employee);
@@ -65,7 +80,7 @@ public class EmployeeController {
     @RequestMapping("/validation")
     public Boolean validation(Integer empId,String password,HttpServletRequest request){
         Employee employee = (Employee) request.getSession().getAttribute("employee");
-        if(password.equals("123456")){
+        if(password.equals(employee.getPassword())){
                 Employee emp2 = new Employee();
                 emp2.setId(empId);
                 emp2.setState(0);
@@ -81,7 +96,7 @@ public class EmployeeController {
     @RequestMapping("/unFreeze")
     public Boolean unFreeze(Integer empId,String password,HttpServletRequest request){
         Employee employee = (Employee) request.getSession().getAttribute("employee");
-        if(password.equals("123456")){
+        if(password.equals(employee.getPassword())){
             Employee emp2 = new Employee();
             emp2.setId(empId);
             emp2.setState(1);
@@ -97,7 +112,7 @@ public class EmployeeController {
     @RequestMapping("/delete")
     public Boolean delete(Integer empId,String password,HttpServletRequest request) {
         Employee employee = (Employee) request.getSession().getAttribute("employee");
-        if (password.equals("1234569")) {
+        if (password.equals(employee.getPassword())) {
             Employee emp2 = new Employee();
             emp2.setId(empId);
             emp2.setState(-1);
