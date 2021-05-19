@@ -62,7 +62,7 @@ public class EmployeeController {
 
             }
         }
-        employee.setImage("img"+imgFile.getOriginalFilename());
+        employee.setImage("img/"+imgFile.getOriginalFilename());
         employee.setLastLoginTime(new Date());
         employee.setState(1);
         boolean save = employeeService.save(employee);
@@ -70,7 +70,18 @@ public class EmployeeController {
     }
     //修改员工
     @RequestMapping("/update")
-    public Boolean update(Employee employee){
+    public Boolean update(Employee employee,@RequestPart("imgFile") MultipartFile imgFile,HttpServletRequest request){
+        if(imgFile!=null) {
+            //获取当前项目发布地址/img
+            String path = request.getServletContext().getRealPath("/img");
+
+            try {
+                imgFile.transferTo(new File(path, imgFile.getOriginalFilename()));
+            } catch (IOException e) {
+
+            }
+        }
+        employee.setImage("img/"+imgFile.getOriginalFilename());
         UpdateWrapper<Employee> employeeUpdateWrapper = new UpdateWrapper<Employee>();
         employeeUpdateWrapper.eq("id",employee.getId());
         boolean update = employeeService.update(employee, employeeUpdateWrapper);
