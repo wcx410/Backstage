@@ -26,7 +26,7 @@ public class CommodityController {
 
 
     //商品service
-    @Autowired
+    @Autowired(required = false)
     private  CommodityService commodityService;
     //商品类型service
     @Autowired(required = false)
@@ -43,16 +43,16 @@ public class CommodityController {
     public IPage<Commodity> queryallcommodity(@RequestParam(value = "pageno",defaultValue = "1") int pageno,
                                               @RequestParam(value = "pagesize",defaultValue = "5")int pagesize,
                                               CommodityDto commodityDto){
-        if ("全部".equals(commodityDto.getState())) {
+        if (commodityDto.getState().equals("全部")) {
             commodityDto.setState("");
         }
-        if ("上架".equals(commodityDto.getState())) {
+        if (commodityDto.getState().equals("上架")) {
             commodityDto.setState("1");
         }
-        if ("未上架".equals(commodityDto.getState())) {
+        if (commodityDto.getState().equals("未上架")) {
             commodityDto.setState("0");
         }
-        if ("下架".equals(commodityDto.getState())) {
+        if (commodityDto.getState().equals("下架")) {
             commodityDto.setState("2");
         }
 
@@ -66,7 +66,7 @@ public class CommodityController {
     @RequestMapping("/queryallcommoditys.action")
     @ResponseBody //异步
 //    @CrossOrigin  //前后端分离
-    public List<Commodity> queryallcommoditys(CommodityDto commodityDto){
+    public List<Commodity> queryallcommoditys(CommodityDto commodityDto) {
         if ("全部".equals(commodityDto.getState())) {
             commodityDto.setState("");
         }
@@ -81,15 +81,29 @@ public class CommodityController {
         }
 
         QueryWrapper<Commodity> queryWrapper = new QueryWrapper<Commodity>();
-        if (!StringUtils.isEmpty(commodityDto.getName())){
-            queryWrapper.like("name",commodityDto.getName());
+        if (!StringUtils.isEmpty(commodityDto.getName())) {
+            queryWrapper.like("name", commodityDto.getName());
         }
         List<Commodity> list = commodityService.list(queryWrapper);
         System.out.println(list);
         return list;
-    }
 
+    }
     //修改商品状态
+    @RequestMapping("/updatecommodity.action")
+    public Boolean updatecommodity(Integer state, Integer id, Date putawayDate){
+        int i=0;
+        if(putawayDate==null){
+         i = commodityService.updatestate(state, id);
+        }
+        else {
+         i=commodityService.updatestate2(state,putawayDate,id);
+        }
+        if(i<=0){
+            return false;
+        }
+        return true;
+    }
     @RequestMapping("/shangjiacommodity.action")
 //    @CrossOrigin
     public String shangjiacommodity(Integer state,Integer id){
@@ -103,19 +117,19 @@ public class CommodityController {
 
     //获取ID,展示详情页面
     @RequestMapping("/xiangqing.action")
-    public Commodity xiangqing(Integer id){
-        System.out.println("id:"+id);
-       // Commodity commodity = commodityMapper.getById(id);
+    public Commodity xiangqing(Integer id) {
+        System.out.println("id:" + id);
+        // Commodity commodity = commodityMapper.getById(id);
         Commodity commodity = commodityService.getById(id);
         System.out.println("good商品");
         System.out.println("good商品");
         System.out.println("good商品");
         System.out.println("good商品");
-        System.out.println(commodity+"good商品");
+        System.out.println(commodity + "good商品");
         return commodity;
+
+
     }
-
-
 
     //查询商品类型
     @RequestMapping("/queryAlltype.action")

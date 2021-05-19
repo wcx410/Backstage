@@ -147,7 +147,7 @@ public class EmployeeController {
     //查询出该用户拥有的角色
     @RequestMapping("/querybyid")
     public List<Emprole> querybyid(Integer id){
-        QueryWrapper<Emprole> emproleQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<Emprole> emproleQueryWrapper = new QueryWrapper<Emprole>();
         emproleQueryWrapper.eq("employee",id);
         List<Emprole> list = empRoleService.list(emproleQueryWrapper);
         return list;
@@ -161,11 +161,11 @@ public class EmployeeController {
         for (int i = 0; i < ids.size(); i++) {
             emp = ids.get(i).getEmployee();
         }
-        QueryWrapper<Emprole> emproleQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<Emprole> emproleQueryWrapper = new QueryWrapper<Emprole>();
         emproleQueryWrapper.eq("employee",emp);
         boolean remove = empRoleService.remove(emproleQueryWrapper);
 //        if(remove){
-            List<Emprole> emproles = new ArrayList<>();
+            List<Emprole> emproles = new ArrayList<Emprole>();
 
             for (int i = 0; i < ids.size(); i++) {
                 Emprole emprole = new Emprole();
