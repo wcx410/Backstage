@@ -3,6 +3,7 @@ package com.impl;
 import com.ComOrder;
 import com.ShopCarAndCommodity;
 import com.ShopCarService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mapper.ComOrderMapper;
 import com.*;
@@ -14,6 +15,7 @@ import com.shop.ShopCarDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class ShopCarServiceImpl  extends ServiceImpl<ShopCarMapper, ShopCar> implements ShopCarService {
@@ -46,6 +48,11 @@ public class ShopCarServiceImpl  extends ServiceImpl<ShopCarMapper, ShopCar> imp
         pageUtil.setRows(pageInfo.getList());
         pageUtil.setTotal(pageInfo.getTotal());
         return pageUtil;
+    }
+
+    @Override
+    public List<MyshopCom> queryTu(Integer uid) {
+        return shopCarMapper.queryTu(uid);
     }
 
 

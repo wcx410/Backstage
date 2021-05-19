@@ -15,4 +15,7 @@ public interface ShopCarService extends IService<ShopCar> {
 
     //商户查询订单状态为待提货的订单信息
     PageUtil<MyShop> querytihuo(Integer pageNo, Integer pageSize, ShopCarDto dto);
+
+    //销量
+    public List<MyshopCom> queryTu(Integer uid);
 }

@@ -11,10 +11,8 @@ import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RequestMapping("/shop")
 @RestController
@@ -70,15 +68,15 @@ public class ShopController {
     //商户查询总收入
     @RequestMapping("/queryzsr")
     public Integer queryshouhuo(HttpServletRequest request){
-        QueryWrapper<ShopCar> shopCarQueryWrapper = new QueryWrapper<ShopCar>();
-        User emp= (User) request.getSession().getAttribute("user");
-        shopCarQueryWrapper.eq("uid",emp.getId());
+//        QueryWrapper<ShopCar> shopCarQueryWrapper = new QueryWrapper<ShopCar>();
+        User user= (User) request.getSession().getAttribute("user");
+//        shopCarQueryWrapper.eq("uid",id);
         //获取购物车的ID
-        ShopCar one = shopCarService.getOne(shopCarQueryWrapper);
+//        ShopCar one = shopCarService.getOne(shopCarQueryWrapper);
         QueryWrapper<ComOrder> comOrderQueryWrapper = new QueryWrapper<ComOrder>();
         comOrderQueryWrapper.ne("ordstate",4).ne("ordstate",5);
         comOrderQueryWrapper.eq("isdelete",0);
-        comOrderQueryWrapper.eq("sid",one.getId());
+        comOrderQueryWrapper.eq("merId",user.getMerid());
         List<ComOrder> list = comOrderService.list(comOrderQueryWrapper);
         Integer prices = 0;
         for (int i = 0; i < list.size(); i++) {
@@ -87,16 +85,26 @@ public class ShopController {
         }
         return prices;
     }
-    //商户查询昨日收入
-    @RequestMapping("/queryzrsr")
-    public Integer queryzsr(Integer id){
-        QueryWrapper<ShopCar> shopCarQueryWrapper = new QueryWrapper<ShopCar>();
-        shopCarQueryWrapper.eq("uid",id);
-        ShopCar one = shopCarService.getOne(shopCarQueryWrapper);
+//    //商户查询昨日收入
+    @RequestMapping("/queryztsr")
+    public Integer queryzsr(HttpServletRequest request){
+//        QueryWrapper<ShopCar> shopCarQueryWrapper = new QueryWrapper<ShopCar>();
+//        shopCarQueryWrapper.eq("uid",id);
+//        ShopCar one = shopCarService.getOne(shopCarQueryWrapper);
         QueryWrapper<ComOrder> comOrderQueryWrapper = new QueryWrapper<ComOrder>();
+        //Date date = new Date();
+        //int day = date.getDay()-1;
+        Calendar calendar =Calendar.getInstance();
+        calendar.add(Calendar.DATE,-1);
+        Date date = new Date(calendar.getTimeInMillis());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+
         comOrderQueryWrapper.ne("ordstate",4).ne( "ordstate",5);
+        User user= (User) request.getSession().getAttribute("user");
+//        comOrderQueryWrapper.eq("pickUpTime",simpleDateFormat.format(date));
+        comOrderQueryWrapper.between("pick_up_time",simpleDateFormat.format(date),new Date());
         comOrderQueryWrapper.eq("isdelete",0);
-        comOrderQueryWrapper.eq("sid",one.getId());
+        comOrderQueryWrapper.eq("merId",user.getMerid());
         List<ComOrder> list = comOrderService.list(comOrderQueryWrapper);
         Integer prices = 0;
         for (int i = 0; i < list.size(); i++) {
@@ -104,6 +112,13 @@ public class ShopController {
             prices+=j;
         }
         return prices;
+    }
+    //统计图
+    @RequestMapping("/queryTu")
+    public List<MyshopCom> myshopComs(HttpServletRequest request){
+        User user= (User) request.getSession().getAttribute("user");
+        List<MyshopCom> myshopComs = shopCarService.queryTu(user.getId());
+        return myshopComs;
     }
 
     //查询所有商户信息

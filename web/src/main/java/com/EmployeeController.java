@@ -6,10 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -121,5 +118,37 @@ public class EmployeeController {
             return false;
         }
     }
-    //查询出所有角色
+    //查询出该用户拥有的角色
+    @RequestMapping("/querybyid")
+    public List<Emprole> querybyid(Integer id){
+        QueryWrapper<Emprole> emproleQueryWrapper = new QueryWrapper<>();
+        emproleQueryWrapper.eq("employee",id);
+        List<Emprole> list = empRoleService.list(emproleQueryWrapper);
+        return list;
+    }
+    //添加角色
+    @RequestMapping("/addRoles")
+    public Boolean addRoles(@RequestBody List<Emprole> ids){
+        //清空emp这个ID所拥有的角色
+        Emprole emprole2 = new Emprole();
+        int emp = 0;
+        for (int i = 0; i < ids.size(); i++) {
+            emp = ids.get(i).getEmployee();
+        }
+        QueryWrapper<Emprole> emproleQueryWrapper = new QueryWrapper<>();
+        emproleQueryWrapper.eq("employee",emp);
+        boolean remove = empRoleService.remove(emproleQueryWrapper);
+//        if(remove){
+            List<Emprole> emproles = new ArrayList<>();
+
+            for (int i = 0; i < ids.size(); i++) {
+                Emprole emprole = new Emprole();
+                emprole.setEmployee(emp);
+                emprole.setRole(ids.get(i).getRole());
+                emproles.add(emprole);
+            }
+            boolean b = empRoleService.saveBatch(emproles);
+             return b;
+//        }
+    }
 }
