@@ -32,7 +32,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         if(!StringUtils.isEmpty(commodityDto.getName())){
             queryWrapper.like("name",commodityDto.getName());
         }
-        if(!StringUtils.isEmpty(commodityDto.getCom_type()) && "0".equals(commodityDto.getCom_type())){
+        if(commodityDto.getCom_type()!=-1){
             queryWrapper.like("com_type",commodityDto.getCom_type());
         }
         if(!StringUtils.isEmpty(commodityDto.getState())){

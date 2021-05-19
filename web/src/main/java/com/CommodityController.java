@@ -65,6 +65,33 @@ public class CommodityController {
         return iPage;
     }
 
+    //分页条件查询商品数据
+    @RequestMapping("/queryallcommoditys.action")
+    @ResponseBody //异步
+//    @CrossOrigin  //前后端分离
+    public List<Commodity> queryallcommoditys(CommodityDto commodityDto){
+        if ("全部".equals(commodityDto.getState())) {
+            commodityDto.setState("");
+        }
+        if ("上架".equals(commodityDto.getState())) {
+            commodityDto.setState("1");
+        }
+        if ("未上架".equals(commodityDto.getState())) {
+            commodityDto.setState("0");
+        }
+        if ("下架".equals(commodityDto.getState())) {
+            commodityDto.setState("2");
+        }
+
+        QueryWrapper<Commodity> queryWrapper = new QueryWrapper<Commodity>();
+        if (!StringUtils.isEmpty(commodityDto.getName())){
+            queryWrapper.like("name",commodityDto.getName());
+        }
+        List<Commodity> list = commodityService.list(queryWrapper);
+        System.out.println(list);
+        return list;
+    }
+
     //修改商品状态
     @RequestMapping("/shangjiacommodity.action")
 //    @CrossOrigin

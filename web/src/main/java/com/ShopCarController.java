@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 //购物车
 @RestController
@@ -23,6 +24,13 @@ public class ShopCarController {
     ComOrderService comOrderService;
     @Autowired
     MerchantsService merchantsService;
+
+    @RequestMapping(value = "/addShopCar",produces = "application/json;charset=UTF-8")
+    public String addShopCar(ShopCar shopCar){
+        shopCar.setJointime(new Date());
+        boolean save = shopCarService.save(shopCar);
+        return save?"加入成功":"加入失败";
+    }
     @RequestMapping("/shopCarAndCommodities")
     public List<ShopCarAndCommodity>shopCarAndCommodities(Integer uid){
         return shopCarService.queryShopCarAndCommodityByUId(uid);
