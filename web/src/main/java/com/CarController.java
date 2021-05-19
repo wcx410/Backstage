@@ -8,7 +8,7 @@ import java.util.List;
 
 @Controller
 public class CarController {
-    @Autowired(required = false)
+    @Autowired
     private CarService carService;
 
     @RequestMapping("/list")

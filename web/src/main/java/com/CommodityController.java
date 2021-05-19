@@ -4,8 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.mapper.CommodityMapper;
+import com.mapper.WenYang;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -19,8 +27,9 @@ import java.util.Map;
 @RequestMapping("/commodity")
 public class CommodityController {
 
+
     //商品service
-    @Autowired(required = false)
+    @Autowired
     private  CommodityService commodityService;
     //商品类型service
     @Autowired(required = false)
@@ -32,19 +41,21 @@ public class CommodityController {
 
     //分页条件查询商品数据
     @RequestMapping("/queryallcommodity.action")
-    public IPage<Commodity> queryallcommodity(@RequestParam(value = "page",defaultValue = "1") int pageno,
-                                              @RequestParam(value = "rows",defaultValue = "5")int pagesize,
+    @ResponseBody //异步
+//    @CrossOrigin  //前后端分离
+    public IPage<Commodity> queryallcommodity(@RequestParam(value = "pageno",defaultValue = "1") int pageno,
+                                              @RequestParam(value = "pagesize",defaultValue = "5")int pagesize,
                                               CommodityDto commodityDto){
-        if (commodityDto.getState().equals("全部")) {
+        if ("全部".equals(commodityDto.getState())) {
             commodityDto.setState("");
         }
-        if (commodityDto.getState().equals("上架")) {
+        if ("上架".equals(commodityDto.getState())) {
             commodityDto.setState("1");
         }
-        if (commodityDto.getState().equals("未上架")) {
+        if ("未上架".equals(commodityDto.getState())) {
             commodityDto.setState("0");
         }
-        if (commodityDto.getState().equals("下架")) {
+        if ("下架".equals(commodityDto.getState())) {
             commodityDto.setState("2");
         }
 
@@ -52,25 +63,35 @@ public class CommodityController {
         IPage<Commodity>  iPage= commodityService.page(new Page<Commodity>(pageno,pagesize),queryWrapper);
         System.out.println(iPage);
         return iPage;
-
     }
 
     //修改商品状态
-    @RequestMapping("/updatecommodity.action")
-    public Boolean updatecommodity(Integer state, Integer id, Date putawayDate){
-        int i=0;
-        if(putawayDate==null){
-         i = commodityService.updatestate(state, id);
-        }
-        else {
-         i=commodityService.updatestate2(state,putawayDate,id);
-        }
-        if(i>0){
-            return true;
-        }
-        return false;
+    @RequestMapping("/shangjiacommodity.action")
+//    @CrossOrigin
+    public String shangjiacommodity(Integer state,Integer id){
 
+        int i = commodityService.updatestate(state, id);
+        if(i>0){
+            return "修改成功";
+        }
+        return "修改失败";
     }
+
+    //获取ID,展示详情页面
+    @RequestMapping("/xiangqing.action")
+    public Commodity xiangqing(Integer id){
+        System.out.println("id:"+id);
+       // Commodity commodity = commodityMapper.getById(id);
+        Commodity commodity = commodityService.getById(id);
+        System.out.println("good商品");
+        System.out.println("good商品");
+        System.out.println("good商品");
+        System.out.println("good商品");
+        System.out.println(commodity+"good商品");
+        return commodity;
+    }
+
+
 
     //查询商品类型
     @RequestMapping("/queryAlltype.action")
@@ -164,15 +185,6 @@ public class CommodityController {
         boolean res = comLableService.removeById(id);
         return res;
     }
-
-    @RequestMapping("/querytypebyid.action")
-    @CrossOrigin
-    public ComType querytypebyid(Integer id) {
-        ComType type = comTypeService.getById(id);
-       return type;
-    }
-
-
 
     @RequestMapping("/queryHome")
     public Map<String,Object> queryHome(){
