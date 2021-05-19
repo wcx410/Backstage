@@ -55,8 +55,8 @@ public class UserController {
     }
     //组装查询和分页
     @RequestMapping("/queryUser.action")
-    public IPage<User> queryUser(@RequestParam(value = "pageno",defaultValue = "1")int pageno,
-                                 @RequestParam(value = "pagesize",defaultValue = "5")int pagesize,
+    public IPage<User> queryUser(@RequestParam(value = "page",defaultValue = "1")int pageno,
+                                 @RequestParam(value = "rows",defaultValue = "5")int pagesize,
                                  UserDto userDto){
 //        System.out.println(userDto);userDto
 //        System.out.println("------------");
