@@ -53,6 +53,7 @@ public class ShopController {
     public PageUtil<MyShop> queryshouhuo(HttpServletRequest request, ShopCarDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize){
         User user = (User) request.getSession().getAttribute("user");
         dto.setS_merid(user.getMerid());
+        System.out.println(user.getMerid());
         PageUtil<MyShop> pageUtil = this.shopCarService.queryshouhuo(pageNo, pageSize, dto);
         return pageUtil;
     }
@@ -62,6 +63,7 @@ public class ShopController {
     public PageUtil<MyShop> querytihuo(HttpServletRequest request, ShopCarDto dto, @RequestParam(value="page",defaultValue = "1")Integer pageNo, @RequestParam(value="rows",defaultValue = "5") Integer pageSize){
         User user = (User) request.getSession().getAttribute("user");
         dto.setS_merid(user.getMerid());
+        System.out.println(user.getMerid());
         PageUtil<MyShop> pageUtil = this.shopCarService.querytihuo(pageNo, pageSize, dto);
         return pageUtil;
     }
@@ -197,6 +199,7 @@ public class ShopController {
                 dto.setSearch_ordstate("");
                 User user = (User) request.getSession().getAttribute("user");
                 dto.setS_merid(user.getMerid());
+                System.out.println(user.getMerid());
             }
             pageUtil = this.orderService.querycomorder(pageNo, pageSize, dto);
         }

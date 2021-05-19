@@ -15,8 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -163,7 +171,17 @@ public class CommodityController {
     //添加商品
     @RequestMapping("/add.action")
     @CrossOrigin
-    public Boolean add(Commodity commodity) {
+    public Boolean add(Commodity commodity, @RequestPart("imgFile") MultipartFile imgFile, HttpServletRequest request) {
+        if(imgFile!=null){
+            //获取当前项目发布地址/img
+            String path =  request.getServletContext().getRealPath("/img");
+
+            try {
+                imgFile.transferTo(new File(path,imgFile.getOriginalFilename()));
+            }catch (IOException e){
+            }
+        };
+        commodity.setImage("img/"+imgFile.getOriginalFilename());
         boolean res = commodityService.save(commodity);
         return res;
     }
