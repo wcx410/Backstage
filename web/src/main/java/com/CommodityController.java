@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @RestController
@@ -213,19 +210,24 @@ public class CommodityController {
         return res;
     }
 
+//    @RequestMapping("/queryHome")
+//    public Map<String,Object> queryHome(){
+//        Map<String,Object> map = new HashMap<String,Object>();
+//        //查询首页的--新品上市
+//        QueryWrapper<Commodity> newReleases = commodityService.queryNewReleases();
+//        IPage<Commodity> page = commodityService.page(new Page<Commodity>(1, 10), newReleases);
+//        map.put("newReleases",page.getRecords());
+//        //查询首页的--热销商品
+//        List<Commodity> queryHotSale = commodityService.queryHotSale();
+//        map.put("hotSale",queryHotSale);
+//        //查询首页的--猜你喜欢
+//        List<Commodity> queryGuessLikes = commodityService.queryGuessLikes();
+//        map.put("guessLikes",queryGuessLikes);
+//        return map;
+//    }
     @RequestMapping("/queryHome")
-    public Map<String,Object> queryHome(){
-        Map<String,Object> map = new HashMap<String,Object>();
-        //查询首页的--新品上市
-        QueryWrapper<Commodity> newReleases = commodityService.queryNewReleases();
-        IPage<Commodity> page = commodityService.page(new Page<Commodity>(1, 10), newReleases);
-        map.put("newReleases",page.getRecords());
-        //查询首页的--热销商品
-        List<Commodity> queryHotSale = commodityService.queryHotSale();
-        map.put("hotSale",queryHotSale);
-        //查询首页的--猜你喜欢
-        List<Commodity> queryGuessLikes = commodityService.queryGuessLikes();
-        map.put("guessLikes",queryGuessLikes);
-        return map;
+    public List<Commodity> queryHome(){
+        List<Commodity> list = commodityService.list();
+        return list;
     }
     }
